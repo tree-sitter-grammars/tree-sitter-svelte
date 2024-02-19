@@ -1,0 +1,15 @@
+name: Lint grammar
+
+on:
+  push:
+    branches: ["*"]
+    paths:
+      - grammar.js
+  pull_request:
+    branches: ["*"]
+    paths:
+      - grammar.js
+
+jobs:
+  test:
+    uses: tree-sitter-grammars/.github/.github/workflows/lint.yml@main

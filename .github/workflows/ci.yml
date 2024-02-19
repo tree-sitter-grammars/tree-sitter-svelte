@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: ["*"]
+    paths:
+      - grammar.js
+      - src/**
+      - bindings/**
+      - binding.gyp
+  pull_request:
+    branches: ["*"]
+    paths:
+      - grammar.js
+      - src/**
+      - bindings/**
+      - binding.gyp
+
+jobs:
+  grammar:
+    name: Test grammar
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-14]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm install
+      - name: Generate parser
+        if: inputs.generate == true
+        continue-on-error: true
+        run: |-
+          node_modules/.bin/tree-sitter generate
+          git diff --exit-code HEAD -- src/parser.c
+
+      - name: Run tests (Windows)
+        if: matrix.os == 'windows-latest'
+        run: npm run test-windows
+
+      - name: Run tests
+        if: matrix.os != 'windows-latest'
+        run: npm test
+
+  rust-lib:
+    name: Test Rust library
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+      - name: Run tests
+        run: cargo test
