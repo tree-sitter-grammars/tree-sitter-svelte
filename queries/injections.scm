@@ -11,7 +11,7 @@
   (#any-of? @_lang "scss" "postcss" "less")
   (#set! injection.language "scss"))
 
-(raw_text
+((raw_text) @injection.content
   (#set! injection.language "javascript"))
 
 ((script_element
