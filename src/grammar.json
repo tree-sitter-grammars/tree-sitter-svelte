@@ -571,7 +571,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_raw_text_svelte"
+          "name": "svelte_raw_text"
         },
         {
           "type": "STRING",
@@ -603,7 +603,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_raw_text_svelte"
+          "name": "svelte_raw_text"
         },
         {
           "type": "STRING",
@@ -740,14 +740,19 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_raw_text_svelte"
+              "name": "svelte_raw_text"
             },
             {
               "type": "SEQ",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "_raw_text_svelte_each"
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "svelte_raw_text_each"
+                  },
+                  "named": true,
+                  "value": "svelte_raw_text"
                 },
                 {
                   "type": "STRING",
@@ -755,7 +760,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_raw_text_svelte"
+                  "name": "svelte_raw_text"
                 }
               ]
             }
@@ -879,7 +884,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_raw_text_svelte"
+          "name": "svelte_raw_text"
         },
         {
           "type": "STRING",
@@ -910,7 +915,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_raw_text_svelte"
+              "name": "svelte_raw_text"
             },
             {
               "type": "BLANK"
@@ -943,7 +948,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_raw_text_svelte"
+              "name": "svelte_raw_text"
             },
             {
               "type": "BLANK"
@@ -1020,7 +1025,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_raw_text_svelte"
+          "name": "svelte_raw_text"
         },
         {
           "type": "STRING",
@@ -1092,7 +1097,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_raw_text_svelte"
+          "name": "svelte_raw_text"
         },
         {
           "type": "STRING",
@@ -1133,7 +1138,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_raw_text_svelte"
+          "name": "svelte_raw_text"
         },
         {
           "type": "STRING",
@@ -1161,7 +1166,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_raw_text_svelte"
+          "name": "svelte_raw_text"
         },
         {
           "type": "STRING",
@@ -1189,7 +1194,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_raw_text_svelte"
+          "name": "svelte_raw_text"
         },
         {
           "type": "STRING",
@@ -1217,7 +1222,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_raw_text_svelte"
+          "name": "svelte_raw_text"
         },
         {
           "type": "STRING",
@@ -1245,31 +1250,13 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_raw_text_svelte"
+          "name": "svelte_raw_text"
         },
         {
           "type": "STRING",
           "value": "}"
         }
       ]
-    },
-    "_raw_text_svelte": {
-      "type": "ALIAS",
-      "content": {
-        "type": "SYMBOL",
-        "name": "raw_text_svelte"
-      },
-      "named": true,
-      "value": "raw_text"
-    },
-    "_raw_text_svelte_each": {
-      "type": "ALIAS",
-      "content": {
-        "type": "SYMBOL",
-        "name": "raw_text_svelte_each"
-      },
-      "named": true,
-      "value": "raw_text"
     }
   },
   "extras": [
@@ -1330,11 +1317,11 @@
     },
     {
       "type": "SYMBOL",
-      "name": "raw_text_svelte"
+      "name": "svelte_raw_text"
     },
     {
       "type": "SYMBOL",
-      "name": "raw_text_svelte_each"
+      "name": "svelte_raw_text_each"
     },
     {
       "type": "STRING",
@@ -1353,9 +1340,7 @@
       "value": ":"
     }
   ],
-  "inline": [
-    "_raw_text_svelte"
-  ],
+  "inline": [],
   "supertypes": [
     "_node"
   ]

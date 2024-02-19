@@ -109,7 +109,7 @@
       "required": false,
       "types": [
         {
-          "type": "raw_text",
+          "type": "svelte_raw_text",
           "named": true
         }
       ]
@@ -129,7 +129,7 @@
       "required": true,
       "types": [
         {
-          "type": "raw_text",
+          "type": "svelte_raw_text",
           "named": true
         }
       ]
@@ -175,7 +175,7 @@
       "required": false,
       "types": [
         {
-          "type": "raw_text",
+          "type": "svelte_raw_text",
           "named": true
         }
       ]
@@ -190,7 +190,7 @@
       "required": true,
       "types": [
         {
-          "type": "raw_text",
+          "type": "svelte_raw_text",
           "named": true
         }
       ]
@@ -205,7 +205,7 @@
       "required": true,
       "types": [
         {
-          "type": "raw_text",
+          "type": "svelte_raw_text",
           "named": true
         }
       ]
@@ -245,7 +245,7 @@
       "required": true,
       "types": [
         {
-          "type": "raw_text",
+          "type": "svelte_raw_text",
           "named": true
         }
       ]
@@ -333,7 +333,7 @@
           "named": true
         },
         {
-          "type": "raw_text",
+          "type": "svelte_raw_text",
           "named": true
         }
       ]
@@ -378,7 +378,7 @@
       "required": true,
       "types": [
         {
-          "type": "raw_text",
+          "type": "svelte_raw_text",
           "named": true
         }
       ]
@@ -393,7 +393,7 @@
       "required": true,
       "types": [
         {
-          "type": "raw_text",
+          "type": "svelte_raw_text",
           "named": true
         }
       ]
@@ -413,7 +413,7 @@
       "required": true,
       "types": [
         {
-          "type": "raw_text",
+          "type": "svelte_raw_text",
           "named": true
         }
       ]
@@ -464,7 +464,7 @@
       "required": true,
       "types": [
         {
-          "type": "raw_text",
+          "type": "svelte_raw_text",
           "named": true
         }
       ]
@@ -517,7 +517,7 @@
       "required": true,
       "types": [
         {
-          "type": "raw_text",
+          "type": "svelte_raw_text",
           "named": true
         }
       ]
@@ -579,7 +579,7 @@
       "required": true,
       "types": [
         {
-          "type": "raw_text",
+          "type": "svelte_raw_text",
           "named": true
         }
       ]
@@ -659,7 +659,7 @@
       "required": false,
       "types": [
         {
-          "type": "raw_text",
+          "type": "svelte_raw_text",
           "named": true
         }
       ]
@@ -784,6 +784,10 @@
   {
     "type": "snippet",
     "named": false
+  },
+  {
+    "type": "svelte_raw_text",
+    "named": true
   },
   {
     "type": "tag_name",

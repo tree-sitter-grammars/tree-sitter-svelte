@@ -29,8 +29,8 @@ module.exports = grammar(HTML, {
     $._implicit_end_tag,
     $.raw_text,
     $.comment,
-    $.raw_text_svelte,
-    $.raw_text_svelte_each,
+    $.svelte_raw_text,
+    $.svelte_raw_text_each,
     '@',
     '#',
     '/',
@@ -40,10 +40,6 @@ module.exports = grammar(HTML, {
   extras: $ => [
     $.comment,
     /\s+/,
-  ],
-
-  inline: $ => [
-    $._raw_text_svelte,
   ],
 
   supertypes: $ => [
@@ -92,14 +88,14 @@ module.exports = grammar(HTML, {
       $.if_end,
     ),
 
-    if_start: $ => seq('{', '#', token.immediate('if'), $._raw_text_svelte, '}'),
+    if_start: $ => seq('{', '#', token.immediate('if'), $.svelte_raw_text, '}'),
 
     else_if_block: $ => seq(
       '{',
       ':',
       token.immediate('else'),
       'if',
-      $._raw_text_svelte,
+      $.svelte_raw_text,
       '}',
       repeat($._node),
     ),
@@ -126,8 +122,8 @@ module.exports = grammar(HTML, {
       '#',
       token.immediate('each'),
       choice(
-        $._raw_text_svelte,
-        seq($._raw_text_svelte_each, 'as', $._raw_text_svelte),
+        $.svelte_raw_text,
+        seq(alias($.svelte_raw_text_each, $.svelte_raw_text), 'as', $.svelte_raw_text),
       ),
       '}',
     ),
@@ -142,11 +138,11 @@ module.exports = grammar(HTML, {
       $.await_end,
     ),
 
-    await_start: $ => seq('{', '#', token.immediate('await'), $._raw_text_svelte, '}'),
+    await_start: $ => seq('{', '#', token.immediate('await'), $.svelte_raw_text, '}'),
 
-    then_block: $ => seq('{', ':', token.immediate('then'), optional($._raw_text_svelte), '}'),
+    then_block: $ => seq('{', ':', token.immediate('then'), optional($.svelte_raw_text), '}'),
 
-    catch_block: $ => seq('{', ':', 'catch', optional($._raw_text_svelte), '}'),
+    catch_block: $ => seq('{', ':', 'catch', optional($.svelte_raw_text), '}'),
 
     await_end: _ => seq('{', '/', token.immediate('await'), '}'),
 
@@ -160,7 +156,7 @@ module.exports = grammar(HTML, {
       '{',
       '#',
       token.immediate('key'),
-      $._raw_text_svelte,
+      $.svelte_raw_text,
       '}',
     ),
 
@@ -176,19 +172,19 @@ module.exports = grammar(HTML, {
       '{',
       '#',
       token.immediate('snippet'),
-      $._raw_text_svelte,
+      $.svelte_raw_text,
       '}',
     ),
 
     snippet_end: _ => seq('{', '/', token.immediate('snippet'), '}'),
 
-    expression: $ => seq('{', $._raw_text_svelte, '}'),
+    expression: $ => seq('{', $.svelte_raw_text, '}'),
 
     html_tag: $ => seq(
       '{',
       '@',
       token.immediate('html'),
-      $._raw_text_svelte,
+      $.svelte_raw_text,
       '}',
     ),
 
@@ -196,7 +192,7 @@ module.exports = grammar(HTML, {
       '{',
       '@',
       token.immediate('const'),
-      $._raw_text_svelte,
+      $.svelte_raw_text,
       '}',
     ),
 
@@ -204,7 +200,7 @@ module.exports = grammar(HTML, {
       '{',
       '@',
       token.immediate('debug'),
-      $._raw_text_svelte,
+      $.svelte_raw_text,
       '}',
     ),
 
@@ -212,7 +208,7 @@ module.exports = grammar(HTML, {
       '{',
       '@',
       token.immediate('render'),
-      $._raw_text_svelte,
+      $.svelte_raw_text,
       '}',
     ),
 
@@ -221,9 +217,5 @@ module.exports = grammar(HTML, {
     attribute_value: _ => /[^<>{}"'=\s]+/,
 
     text: _ => /[^<>{}&\s]([^<>{}&]*[^<>{}&\s])?/,
-
-    _raw_text_svelte: $ => alias($.raw_text_svelte, $.raw_text),
-
-    _raw_text_svelte_each: $ => alias($.raw_text_svelte_each, $.raw_text),
   },
 });

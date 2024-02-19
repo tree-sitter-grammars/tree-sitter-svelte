@@ -13,8 +13,8 @@ enum TokenType {
     IMPLICIT_END_TAG,
     RAW_TEXT,
     COMMENT,
-    RAW_TEXT_SVELTE,
-    RAW_TEXT_SVELTE_EACH,
+    SVELTE_RAW_TEXT,
+    SVELTE_RAW_TEXT_EACH,
     AT,
     HASH,
     SLASH,
@@ -263,7 +263,7 @@ static bool scan_raw_text(Scanner *scanner, TSLexer *lexer) {
     return true;
 }
 
-static bool scan_raw_text_svelte(TSLexer *lexer, const bool *valid_symbols) {
+static bool scan_svelte_raw_text(TSLexer *lexer, const bool *valid_symbols) {
     while (iswspace(lexer->lookahead)) {
         skip(lexer);
     }
@@ -284,7 +284,7 @@ static bool scan_raw_text_svelte(TSLexer *lexer, const bool *valid_symbols) {
         advanced_once = true;
     }
 
-    lexer->result_symbol = valid_symbols[RAW_TEXT_SVELTE_EACH] ? RAW_TEXT_SVELTE_EACH : RAW_TEXT_SVELTE;
+    lexer->result_symbol = valid_symbols[SVELTE_RAW_TEXT_EACH] ? SVELTE_RAW_TEXT_EACH : SVELTE_RAW_TEXT;
 
     uint8_t brace_level = 0;
 
@@ -307,7 +307,7 @@ static bool scan_raw_text_svelte(TSLexer *lexer, const bool *valid_symbols) {
                 break;
 
             case 'a':
-                if (lexer->result_symbol == RAW_TEXT_SVELTE_EACH) {
+                if (lexer->result_symbol == SVELTE_RAW_TEXT_EACH) {
                     lexer->mark_end(lexer);
                     advance(lexer);
                     advanced_once = true;
@@ -447,8 +447,8 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         return scan_raw_text(scanner, lexer);
     }
 
-    if (valid_symbols[RAW_TEXT_SVELTE] || valid_symbols[RAW_TEXT_SVELTE_EACH]) {
-        return scan_raw_text_svelte(lexer, valid_symbols);
+    if (valid_symbols[SVELTE_RAW_TEXT] || valid_symbols[SVELTE_RAW_TEXT_EACH]) {
+        return scan_svelte_raw_text(lexer, valid_symbols);
     }
 
     while (iswspace(lexer->lookahead)) {
