@@ -25,14 +25,13 @@
   "devDependencies": {
     "eslint": ">=8.56.0",
     "eslint-config-google": "^0.14.0",
-    "tree-sitter-cli": "^0.20.8"
+    "tree-sitter-cli": "^0.21.0"
   },
   "scripts": {
-    "build": "tree-sitter generate && node-gyp build",
+    "build": "tree-sitter generate --no-bindings",
     "lint": "eslint grammar.js",
     "parse": "tree-sitter parse",
-    "test": "tree-sitter test && script/parse-examples",
-    "test-windows": "tree-sitter test"
+    "test": "tree-sitter test"
   },
   "tree-sitter": [
     {
