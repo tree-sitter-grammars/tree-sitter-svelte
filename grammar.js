@@ -2,7 +2,6 @@
  * @file Svelte grammar for tree-sitter
  * @author Amaan Qureshi <amaanq12@gmail.com>
  * @license MIT
- * @see {@link https://svelte.dev/|Official website}
  */
 
 // eslint-disable-next-line spaced-comment
