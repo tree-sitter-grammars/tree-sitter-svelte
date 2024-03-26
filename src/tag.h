@@ -1,7 +1,5 @@
 #include "tree_sitter/array.h"
-#include "tree_sitter/parser.h"
 
-#include <assert.h>
 #include <string.h>
 
 typedef enum {
