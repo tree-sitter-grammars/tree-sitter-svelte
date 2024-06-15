@@ -83,6 +83,7 @@ jobs:
             examples/svelte/packages/svelte/tests/compiler-errors/samples/empty-classname-binding/main.svelte
             examples/svelte/packages/svelte/tests/compiler-errors/samples/empty-directive-name/main.svelte
             examples/svelte/packages/svelte/tests/compiler-errors/samples/illegal-expression/main.svelte
+            examples/svelte/packages/svelte/tests/compiler-errors/samples/invalid-snippet-binding/main.svelte
             examples/svelte/packages/svelte/tests/compiler-errors/samples/raw-mustaches-whitespace/main.svelte
             examples/svelte/packages/svelte/tests/compiler-errors/samples/script-unclosed/main.svelte
             examples/svelte/packages/svelte/tests/compiler-errors/samples/script-unclosed-eof/main.svelte
@@ -91,6 +92,8 @@ jobs:
             examples/svelte/packages/svelte/tests/compiler-errors/samples/svelte-selfdestructive/main.svelte
             examples/svelte/packages/svelte/tests/compiler-errors/samples/then-before-closing/main.svelte
             examples/svelte/packages/svelte/tests/compiler-errors/samples/then-without-await/main.svelte
+            examples/svelte/packages/svelte/tests/compiler-errors/samples/unbalanced-curly-component/main.svelte
+            examples/svelte/packages/svelte/tests/compiler-errors/samples/unbalanced-curly-element/main.svelte
             examples/svelte/packages/svelte/tests/compiler-errors/samples/unclosed-attribute-self-close-tag/main.svelte
             examples/svelte/packages/svelte/tests/compiler-errors/samples/unexpected-end-of-input/main.svelte
             examples/svelte/packages/svelte/tests/compiler-errors/samples/unexpected-end-of-input-b/main.svelte
