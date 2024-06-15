@@ -119,7 +119,9 @@ Custom tags
 ==================================
 <something:different>
   <atom-text-editor mini>
-    Hello
+    <Hello.World>
+      Hello
+    </Hello.World>
   </atom-text-editor>
 </something:different>
 ---
@@ -133,7 +135,12 @@ Custom tags
         (tag_name)
         (attribute
           (attribute_name)))
-      (text)
+      (element
+        (start_tag
+          (tag_name))
+        (text)
+        (end_tag
+          (tag_name)))
       (end_tag
         (tag_name)))
     (end_tag
