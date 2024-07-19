@@ -110,7 +110,22 @@ static void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
 static String scan_tag_name(TSLexer *lexer) {
     String tag_name = array_new();
     while (iswalnum(lexer->lookahead) || lexer->lookahead == '-' || lexer->lookahead == ':' || lexer->lookahead == '.') {
-        array_push(&tag_name, towupper(lexer->lookahead));
+        // In `tree-sitter-html`, this is where each character is uppercased,
+        // but we're preserving the original case. Why?
+        //
+        // The comparisons for HTML are case-insensitive, since browsers parse
+        // HTML tag names in a case-insensitive manner. But Svelte enforces
+        // that all usages of plain HTML are in lowercase! Imported Svelte
+        // components, on the other hand, must have an initial capital letter.
+        //
+        // For the purposes of this parser, we'll enforce HTML's rules about
+        // containment and void tags only on all-lowercase tag names.
+        //
+        // There are some hypothetical tag names that we could confidently flag
+        // as invalid — element names like `inupt` that fail to meet the naming
+        // requirements for both custom elements and Svelte components. We can
+        // leave that for later, though.
+        array_push(&tag_name, lexer->lookahead);
         advance(lexer);
     }
     return tag_name;
