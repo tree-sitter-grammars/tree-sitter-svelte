@@ -258,11 +258,13 @@ module.exports = grammar(HTML, {
 
     expression: $ => seq('{', $.svelte_raw_text, '}'),
 
+    _tag_value: $ => seq(/\s+/, $.svelte_raw_text),
+
     _html_tag: $ => tag('@', 'html', $),
     html_tag: $ => seq(
       '{',
       alias($._html_tag, $.expression_tag),
-      $.svelte_raw_text,
+      $._tag_value,
       '}',
     ),
 
@@ -270,7 +272,7 @@ module.exports = grammar(HTML, {
     const_tag: $ => seq(
       '{',
       alias($._const_tag, $.expression_tag),
-      $.svelte_raw_text,
+      $._tag_value,
       '}',
     ),
 
@@ -278,7 +280,7 @@ module.exports = grammar(HTML, {
     debug_tag: $ => seq(
       '{',
       alias($._debug_tag, $.expression_tag),
-      $.svelte_raw_text,
+      $._tag_value,
       '}',
     ),
 
