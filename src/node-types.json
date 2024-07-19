@@ -124,11 +124,19 @@
       "required": false,
       "types": [
         {
+          "type": "await_statement",
+          "named": true
+        },
+        {
           "type": "const_tag",
           "named": true
         },
         {
           "type": "debug_tag",
+          "named": true
+        },
+        {
+          "type": "each_statement",
           "named": true
         },
         {
@@ -140,7 +148,19 @@
           "named": true
         },
         {
+          "type": "if_statement",
+          "named": true
+        },
+        {
+          "type": "key_statement",
+          "named": true
+        },
+        {
           "type": "render_tag",
+          "named": true
+        },
+        {
+          "type": "snippet_statement",
           "named": true
         }
       ]

@@ -51,16 +51,18 @@ module.exports = grammar(HTML, {
     _node: ($, original) => choice(
       original,
 
+      $._svelte_statement,
+      $.expression,
+      $._svelte_expression,
+    ),
+
+    _svelte_statement: $ => choice(
       $.if_statement,
       $.each_statement,
       $.await_statement,
       $.key_statement,
       $.snippet_statement,
-
-      $.expression,
-      $._svelte_expression,
     ),
-
 
     _single_quoted_attribute_value: $ => repeat1(
       choice(
@@ -71,6 +73,7 @@ module.exports = grammar(HTML, {
         // …or an expression.
         $.expression,
         $._svelte_expression,
+        $._svelte_statement,
       ),
     ),
 
@@ -83,6 +86,7 @@ module.exports = grammar(HTML, {
         // …or an expression.
         $.expression,
         $._svelte_expression,
+        $._svelte_statement,
       ),
     ),
 

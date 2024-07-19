@@ -77,23 +77,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "if_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "each_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "await_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "key_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "snippet_statement"
+          "name": "_svelte_statement"
         },
         {
           "type": "SYMBOL",
@@ -501,6 +485,31 @@
       "type": "PATTERN",
       "value": "[^<>{}&\\s]([^<>{}&]*[^<>{}&\\s])?"
     },
+    "_svelte_statement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "if_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "each_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "await_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "key_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "snippet_statement"
+        }
+      ]
+    },
     "_single_quoted_attribute_value": {
       "type": "REPEAT1",
       "content": {
@@ -524,6 +533,10 @@
           {
             "type": "SYMBOL",
             "name": "_svelte_expression"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_svelte_statement"
           }
         ]
       }
@@ -551,6 +564,10 @@
           {
             "type": "SYMBOL",
             "name": "_svelte_expression"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_svelte_statement"
           }
         ]
       }
