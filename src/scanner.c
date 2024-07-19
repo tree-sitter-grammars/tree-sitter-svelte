@@ -15,6 +15,7 @@ enum TokenType {
     COMMENT,
     SVELTE_RAW_TEXT,
     SVELTE_RAW_TEXT_EACH,
+    SVELTE_RAW_TEXT_SNIPPET_ARGUMENTS,
     AT,
     HASH,
     SLASH,
@@ -299,6 +300,60 @@ static bool scan_raw_text(Scanner *scanner, TSLexer *lexer) {
     return true;
 }
 
+// Like `scan_svelte_raw_text`, but designed to operate inside the parentheses
+// of a `#snippet` definition. Consumes everything until just before the next
+// balanced parenthesis.
+static bool scan_svelte_raw_text_snippet(TSLexer *lexer) {
+    while (iswspace(lexer->lookahead)) {
+        skip(lexer);
+    }
+    lexer->result_symbol = SVELTE_RAW_TEXT_SNIPPET_ARGUMENTS;
+    uint8_t paren_level = 0;
+    bool advanced_once = false;
+    while (!lexer->eof(lexer)) {
+        switch (lexer->lookahead) {
+            case '/':
+                advance(lexer);
+                if (lexer->lookahead == '*') {
+                    scan_javascript_block_comment(lexer);
+                }
+                break;
+            case '\\':
+                // Escape mode. Advance again.
+                advance(lexer);
+                break;
+            case '"':
+            case '\'':
+                // A quoted string is starting. Advance past the end of the
+                // closing delimiter.
+                scan_javascript_quoted_string(lexer, lexer->lookahead);
+                break;
+            case '`':
+                // A template string is starting. Advance past the end of the
+                // closing delimiter.
+                scan_javascript_template_string(lexer);
+                break;
+            case ')':
+                if (paren_level == 0) {
+                    lexer->mark_end(lexer);
+                    return advanced_once;
+                }
+                advance(lexer);
+                paren_level--;
+                break;
+            case '(':
+                advance(lexer);
+                paren_level++;
+                break;
+            default:
+                advance(lexer);
+                break;
+        }
+        advanced_once = true;
+    }
+    return false;
+}
+
 static bool scan_svelte_raw_text(TSLexer *lexer, const bool *valid_symbols) {
     while (iswspace(lexer->lookahead)) {
         skip(lexer);
@@ -530,6 +585,10 @@ static bool scan_self_closing_tag_delimiter(Scanner *scanner, TSLexer *lexer) {
 static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     if (valid_symbols[RAW_TEXT] && !valid_symbols[START_TAG_NAME] && !valid_symbols[END_TAG_NAME]) {
         return scan_raw_text(scanner, lexer);
+    }
+
+    if (valid_symbols[SVELTE_RAW_TEXT_SNIPPET_ARGUMENTS]) {
+        return scan_svelte_raw_text_snippet(lexer);
     }
 
     if (valid_symbols[SVELTE_RAW_TEXT] || valid_symbols[SVELTE_RAW_TEXT_EACH]) {

@@ -31,6 +31,7 @@ module.exports = grammar(HTML, {
     $.comment,
     $.svelte_raw_text,
     $.svelte_raw_text_each,
+    $.svelte_raw_text_snippet_arguments,
     '@',
     '#',
     '/',
@@ -246,12 +247,7 @@ module.exports = grammar(HTML, {
       alias(/[a-zA-Z$_][a-zA-Z0-9_]*/, $.snippet_name),
       '(',
       optional(
-        // TODO: This should use a slightly modified version of
-        // `svelte_raw_text` that finds a balanced parenthesis. Snippets take
-        // only a single argument, but it's allowed to be an object with
-        // keyword parameters, and those parameters can accept default values;
-        // so anything goes.
-        alias(/[^)]+/, $.svelte_raw_text),
+        alias($.svelte_raw_text_snippet_arguments, $.svelte_raw_text),
       ),
       ')',
       '}',
@@ -293,10 +289,9 @@ module.exports = grammar(HTML, {
       alias(/[a-zA-Z$_][a-zA-Z0-9_]*/, $.snippet_name),
       '(',
       optional(
-        alias(/[^)]+/, $.svelte_raw_text),
+        alias($.svelte_raw_text_snippet_arguments, $.svelte_raw_text),
       ),
       ')',
-      // $.svelte_raw_text,
       '}',
     ),
 

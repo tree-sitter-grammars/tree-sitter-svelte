@@ -1432,8 +1432,8 @@
             {
               "type": "ALIAS",
               "content": {
-                "type": "PATTERN",
-                "value": "[^)]+"
+                "type": "SYMBOL",
+                "name": "svelte_raw_text_snippet_arguments"
               },
               "named": true,
               "value": "svelte_raw_text"
@@ -1705,8 +1705,8 @@
             {
               "type": "ALIAS",
               "content": {
-                "type": "PATTERN",
-                "value": "[^)]+"
+                "type": "SYMBOL",
+                "name": "svelte_raw_text_snippet_arguments"
               },
               "named": true,
               "value": "svelte_raw_text"
@@ -1790,6 +1790,10 @@
     {
       "type": "SYMBOL",
       "name": "svelte_raw_text_each"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "svelte_raw_text_snippet_arguments"
     },
     {
       "type": "STRING",
