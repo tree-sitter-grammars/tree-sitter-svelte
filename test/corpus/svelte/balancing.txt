@@ -1,0 +1,43 @@
+============================
+Stray braces
+============================
+<li>{foo}x</li>
+<li>{"}" + 4}</li>
+<li>{`${`}`}` /* } bar */}</li>
+------------------------
+(document
+  (element
+    (start_tag
+      (tag_name)
+    )
+    (expression
+      (svelte_raw_text)
+    )
+    (text)
+    (end_tag
+      (tag_name)
+    )
+  )
+  (element
+    (start_tag
+      (tag_name)
+    )
+    (expression
+      (svelte_raw_text)
+    )
+    (end_tag
+      (tag_name)
+    )
+  )
+  (element
+    (start_tag
+      (tag_name)
+    )
+    (expression
+      (svelte_raw_text)
+    )
+    (end_tag
+      (tag_name)
+    )
+  )
+)
