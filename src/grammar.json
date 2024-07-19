@@ -101,19 +101,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "html_tag"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "const_tag"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "debug_tag"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "render_tag"
+          "name": "_svelte_expression"
         }
       ]
     },
@@ -532,6 +520,10 @@
           {
             "type": "SYMBOL",
             "name": "expression"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_svelte_expression"
           }
         ]
       }
@@ -555,6 +547,10 @@
           {
             "type": "SYMBOL",
             "name": "expression"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_svelte_expression"
           }
         ]
       }
@@ -1509,6 +1505,27 @@
         {
           "type": "STRING",
           "value": "}"
+        }
+      ]
+    },
+    "_svelte_expression": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "html_tag"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "const_tag"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "debug_tag"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "render_tag"
         }
       ]
     },

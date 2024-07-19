@@ -58,10 +58,7 @@ module.exports = grammar(HTML, {
       $.snippet_statement,
 
       $.expression,
-      $.html_tag,
-      $.const_tag,
-      $.debug_tag,
-      $.render_tag,
+      $._svelte_expression,
     ),
 
 
@@ -73,6 +70,7 @@ module.exports = grammar(HTML, {
         /[^\\{']+/,
         // …or an expression.
         $.expression,
+        $._svelte_expression,
       ),
     ),
 
@@ -84,6 +82,7 @@ module.exports = grammar(HTML, {
         /[^\\{"]+/,
         // …or an expression.
         $.expression,
+        $._svelte_expression,
       ),
     ),
 
@@ -257,6 +256,13 @@ module.exports = grammar(HTML, {
     snippet_end: $ => seq('{', alias($._snippet_end_tag, $.block_end_tag), '}'),
 
     expression: $ => seq('{', $.svelte_raw_text, '}'),
+
+    _svelte_expression: $ => choice(
+      $.html_tag,
+      $.const_tag,
+      $.debug_tag,
+      $.render_tag,
+    ),
 
     _tag_value: $ => seq(/\s+/, $.svelte_raw_text),
 

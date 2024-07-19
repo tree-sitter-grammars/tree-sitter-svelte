@@ -124,7 +124,23 @@
       "required": false,
       "types": [
         {
+          "type": "const_tag",
+          "named": true
+        },
+        {
+          "type": "debug_tag",
+          "named": true
+        },
+        {
           "type": "expression",
+          "named": true
+        },
+        {
+          "type": "html_tag",
+          "named": true
+        },
+        {
+          "type": "render_tag",
           "named": true
         }
       ]
