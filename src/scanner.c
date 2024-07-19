@@ -191,6 +191,27 @@ static bool scan_javascript_block_comment(TSLexer *lexer) {
     return false;
 }
 
+// After consuming a forward slash and seeing another forward slash immediately
+// after it, call this function to advance the lexer to the end of the
+// JavaScript line comment.
+static bool scan_javascript_line_comment(TSLexer *lexer) {
+    if (lexer->lookahead != '/') {
+        return false;
+    }
+    advance(lexer);
+    while (lexer->lookahead) {
+        switch(lexer->lookahead) {
+            case '\n':
+            case '\r':
+                advance(lexer);
+                return true;
+            default:
+                advance(lexer);
+        }
+    }
+    return false;
+}
+
 // When you see a `{` in front of you in a JavaScript context, call this
 // function to scan through until the next balanced (unescaped) brace.
 static bool scan_javascript_balanced_brace(TSLexer *lexer) {
@@ -331,6 +352,8 @@ static bool scan_svelte_raw_text_snippet(TSLexer *lexer) {
                 advance(lexer);
                 if (lexer->lookahead == '*') {
                     scan_javascript_block_comment(lexer);
+                } else if (lexer->lookahead == '/') {
+                    scan_javascript_line_comment(lexer);
                 }
                 break;
             case '\\':
@@ -418,6 +441,8 @@ static bool scan_svelte_raw_text(TSLexer *lexer, const bool *valid_symbols) {
                 advanced_once = true;
                 if (lexer->lookahead == '*') {
                     scan_javascript_block_comment(lexer);
+                } else if (lexer->lookahead == '/') {
+                    scan_javascript_line_comment(lexer);
                 }
                 break;
             case '\\':
