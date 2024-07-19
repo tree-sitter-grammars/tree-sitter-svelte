@@ -2,6 +2,7 @@
  * @file Svelte grammar for tree-sitter
  * @author Amaan Qureshi <amaanq12@gmail.com>
  * @license MIT
+ * @see {@link https://svelte.dev/|Official website}
  */
 
 // eslint-disable-next-line spaced-comment
@@ -18,7 +19,7 @@ module.exports = grammar(HTML, {
     [$.else_block],
   ],
 
-  externals: $ => [
+  externals: ($, _) => [
     $._start_tag_name,
     $._script_start_tag_name,
     $._style_start_tag_name,
@@ -62,6 +63,45 @@ module.exports = grammar(HTML, {
       $.render_tag,
     ),
 
+    _single_quoted_attribute_value: $ => repeat(
+      choice(
+        /[^{']+/,
+        seq(
+          '{',
+          $.svelte_raw_text,
+          '}',
+        ),
+      ),
+    ),
+
+    _double_quoted_attribute_value: $ => repeat(
+      choice(
+        /[^{"]+/,
+        seq(
+          '{',
+          $.svelte_raw_text,
+          '}',
+        ),
+      ),
+    ),
+
+    quoted_attribute_value: $ => choice(
+      seq(
+        '\'',
+        optional(
+          alias($._single_quoted_attribute_value, $.attribute_value),
+        ),
+        '\'',
+      ),
+      seq(
+        '"',
+        optional(
+          alias($._double_quoted_attribute_value, $._quoted_attribute_value),
+        ),
+        '"',
+      ),
+    ),
+
     attribute: $ => seq(
       choice(
         seq(
@@ -87,27 +127,40 @@ module.exports = grammar(HTML, {
       $.if_end,
     ),
 
-    if_start: $ => seq('{', '#', token.immediate('if'), $.svelte_raw_text, '}'),
+    _if_start_tag: $ => tag('#', 'if', $),
+    if_start: $ => seq(
+      '{',
+      alias($._if_start_tag, $.block_open_tag),
+      field('condition', $.svelte_raw_text),
+      '}',
+    ),
+
+    _else_if_tag: $ => tag(':', 'else if', $),
+    else_if_start: $ => seq(
+      '{',
+      alias($._else_if_tag, $.block_tag),
+      field('condition', $.svelte_raw_text),
+      '}',
+    ),
 
     else_if_block: $ => seq(
-      '{',
-      ':',
-      token.immediate('else'),
-      'if',
-      $.svelte_raw_text,
-      '}',
+      $.else_if_start,
       repeat($._node),
     ),
 
+    _else_tag: $ => tag(':', 'else', $),
+    else_start: $ => seq(
+      '{',
+      alias($._else_tag, $.block_tag),
+      '}',
+    ),
     else_block: $ => seq(
-      '{',
-      ':',
-      token.immediate('else'),
-      '}',
+      $.else_start,
       repeat($._node),
     ),
 
-    if_end: _ => seq('{', '/', token.immediate('if'), '}'),
+    _if_end_tag: $ => tag('/', 'if', $),
+    if_end: $ => seq('{', alias($._if_end_tag, $.block_close_tag), '}'),
 
     each_statement: $ => seq(
       $.each_start,
@@ -116,18 +169,27 @@ module.exports = grammar(HTML, {
       $.each_end,
     ),
 
+    _each_start_tag: $ => tag('#', 'each', $),
     each_start: $ => seq(
       '{',
-      '#',
-      token.immediate('each'),
+      alias($._each_start_tag, $.block_open_tag),
       choice(
-        $.svelte_raw_text,
-        seq(alias($.svelte_raw_text_each, $.svelte_raw_text), 'as', $.svelte_raw_text),
+        field('identifier', $.svelte_raw_text),
+        seq(
+          field('identifier', alias($.svelte_raw_text_each, $.svelte_raw_text)),
+          'as',
+          field('parameter', $.svelte_raw_text),
+        ),
       ),
       '}',
     ),
 
-    each_end: _ => seq('{', '/', token.immediate('each'), '}'),
+    _each_end_tag: $ => tag('/', 'each', $),
+    each_end: $ => seq(
+      '{',
+      alias($._each_end_tag, $.block_close_tag),
+      '}',
+    ),
 
     await_statement: $ => seq(
       $.await_start,
@@ -137,13 +199,22 @@ module.exports = grammar(HTML, {
       $.await_end,
     ),
 
-    await_start: $ => seq('{', '#', token.immediate('await'), $.svelte_raw_text, '}'),
+    _await_start_tag: $ => tag('#', 'await', $),
+    await_start: $ => seq(
+      '{',
+      alias($._await_start_tag, $.block_open_tag),
+      $.svelte_raw_text,
+      '}',
+    ),
 
-    then_block: $ => seq('{', ':', token.immediate('then'), optional($.svelte_raw_text), '}'),
+    _then_tag: $ => tag(':', 'then', $),
+    then_block: $ => seq('{', alias($._then_tag, $.block_tag), optional($.svelte_raw_text), '}'),
 
-    catch_block: $ => seq('{', ':', 'catch', optional($.svelte_raw_text), '}'),
+    _catch_tag: $ => tag(':', 'catch', $),
+    catch_block: $ => seq('{', alias($._catch_tag, $.block_tag), optional($.svelte_raw_text), '}'),
 
-    await_end: _ => seq('{', '/', token.immediate('await'), '}'),
+    _await_end_tag: $ => tag('/', 'await', $),
+    await_end: $ => seq('{', alias($._await_end_tag, $.block_close_tag), '}'),
 
     key_statement: $ => seq(
       $.key_start,
@@ -151,15 +222,11 @@ module.exports = grammar(HTML, {
       $.key_end,
     ),
 
-    key_start: $ => seq(
-      '{',
-      '#',
-      token.immediate('key'),
-      $.svelte_raw_text,
-      '}',
-    ),
+    _key_start_tag: $ => tag('#', 'key', $),
+    key_start: $ => seq('{', alias($._key_start_tag, $.block_open_tag), $.svelte_raw_text, '}' ),
 
-    key_end: _ => seq('{', '/', token.immediate('key'), '}'),
+    _key_end_tag: $ => tag('/', 'key', $),
+    key_end: $ => seq('{', alias($._key_end_tag, $.block_close_tag), '}'),
 
     snippet_statement: $ => seq(
       $.snippet_start,
@@ -167,6 +234,7 @@ module.exports = grammar(HTML, {
       $.snippet_end,
     ),
 
+    _snippet_start_tag: $ => tag('#', 'snippet', $),
     snippet_start: $ => seq(
       '{',
       alias($._snippet_start_tag, $.block_open_tag),
@@ -184,34 +252,36 @@ module.exports = grammar(HTML, {
       '}',
     ),
 
-    snippet_end: _ => seq('{', '/', token.immediate('snippet'), '}'),
+    _snippet_end_tag: $ => tag('/', 'snippet', $),
+    snippet_end: $ => seq('{', alias($._snippet_end_tag, $.block_close_tag), '}'),
 
     expression: $ => seq('{', $.svelte_raw_text, '}'),
 
+    _html_tag: $ => tag('@', 'html', $),
     html_tag: $ => seq(
       '{',
-      '@',
-      token.immediate('html'),
+      alias($._html_tag, $.expression_tag),
       $.svelte_raw_text,
       '}',
     ),
 
+    _const_tag: $ => tag('@', 'const', $),
     const_tag: $ => seq(
       '{',
-      '@',
-      token.immediate('const'),
+      alias($._const_tag, $.expression_tag),
       $.svelte_raw_text,
       '}',
     ),
 
+    _debug_tag: $ => tag('@', 'debug', $),
     debug_tag: $ => seq(
       '{',
-      '@',
-      token.immediate('debug'),
+      alias($._debug_tag, $.expression_tag),
       $.svelte_raw_text,
       '}',
     ),
 
+    _render_tag: $ => tag('@', 'render', $),
     render_tag: $ => seq(
       '{',
       alias($._render_tag, $.expression_tag),
@@ -221,6 +291,7 @@ module.exports = grammar(HTML, {
         alias(/[^)]+/, $.svelte_raw_text),
       ),
       ')',
+      // $.svelte_raw_text,
       '}',
     ),
 
@@ -231,3 +302,16 @@ module.exports = grammar(HTML, {
     text: _ => /[^<>{}&\s]([^<>{}&]*[^<>{}&\s])?/,
   },
 });
+
+/**
+ * @param  {string} sym
+ * @param  {string} text
+ * @param  {any}    $
+ * @return {SeqRule}
+ */
+function tag(sym, text, $) {
+  return seq(
+    sym,
+    field('tag', token.immediate(text)),
+  );
+}
