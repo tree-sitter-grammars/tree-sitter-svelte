@@ -148,6 +148,129 @@ static bool scan_comment(TSLexer *lexer) {
     return false;
 }
 
+static bool scan_javascript_template_string(TSLexer *lexer);
+static bool scan_javascript_quoted_string(TSLexer *lexer, char delimiter);
+
+// After consuming a forward slash and seeing an asterisk immediately after it,
+// call this function to advance the lexer to the end of the JavaScript block
+// comment.
+static bool scan_javascript_block_comment(TSLexer *lexer) {
+    if (lexer->lookahead != '*') {
+        return false;
+    }
+    advance(lexer);
+    while (lexer->lookahead) {
+        switch (lexer->lookahead) {
+            case '*':
+                advance(lexer);
+                if (lexer->lookahead == '/') {
+                    advance(lexer);
+                    return true;
+                }
+                break;
+            default:
+                advance(lexer);
+        }
+    }
+    return false;
+}
+
+// When you see a `{` in front of you in a JavaScript context, call this
+// function to scan through until the next balanced (unescaped) brace.
+static bool scan_javascript_balanced_brace(TSLexer *lexer) {
+    if (lexer->lookahead != '{') {
+        return false;
+    }
+    uint8_t brace_level = 0;
+    advance(lexer);
+    while (lexer->lookahead) {
+        switch (lexer->lookahead) {
+            case '`':
+                scan_javascript_template_string(lexer);
+                break;
+            case '\\':
+                // Escape character. Advance twice.
+                advance(lexer);
+                advance(lexer);
+                break;
+            case '\'':
+            case '"':
+                scan_javascript_quoted_string(lexer, lexer->lookahead);
+                break;
+            case '{':
+                brace_level++;
+                advance(lexer);
+                break;
+            case '}':
+                advance(lexer);
+                if (brace_level == 0) {
+                    return true;
+                }
+                brace_level--;
+                break;
+            default:
+                advance(lexer);
+        }
+    }
+    return false;
+}
+
+// When you see a single or double quote that starts a string, call this
+// function to scan through until the end of the quoted string.
+static bool scan_javascript_quoted_string(TSLexer *lexer, char delimiter) {
+    if (lexer->lookahead != delimiter) {
+        return false;
+    }
+    advance(lexer);
+    while (lexer->lookahead) {
+        switch (lexer->lookahead) {
+            case '\\':
+                // Escape character. Advance again.
+                advance(lexer);
+                advance(lexer);
+                break;
+            default:
+                if (lexer->lookahead == delimiter) {
+                    advance(lexer);
+                    return true;
+                }
+                advance(lexer);
+        }
+    }
+    return false;
+}
+
+// When you see a backtick in a JavaScript context, call this function to scan
+// through until the end of the template string.
+static bool scan_javascript_template_string(TSLexer *lexer) {
+    if (lexer->lookahead != '`') {
+        return false;
+    }
+    advance(lexer);
+    while (lexer->lookahead) {
+        switch (lexer->lookahead) {
+            case '$':
+                advance(lexer);
+                if (lexer->lookahead == '{') {
+                    scan_javascript_balanced_brace(lexer);
+                }
+                break;
+            case '\\':
+                // Escape character. Advance again.
+                advance(lexer);
+                advance(lexer);
+                break;
+            case '`':
+                advance(lexer);
+                return true;
+            default:
+                advance(lexer);
+
+        }
+    }
+    return false;
+}
+
 static bool scan_raw_text(Scanner *scanner, TSLexer *lexer) {
     if (scanner->tags.size == 0) {
         return false;
@@ -186,11 +309,23 @@ static bool scan_svelte_raw_text(TSLexer *lexer, const bool *valid_symbols) {
         return false;
     }
 
+    // EXPERIMENT: If it starts with a sigil, it can't be raw text, right?
+    // This should help prevent false positives in situations where (e.g.) both
+    // `{:else}` and `{/* arbitrary expression */}` are valid.
+    bool has_sigil = lexer->lookahead == '@' || lexer->lookahead == '#' || lexer->lookahead == ':';
+    if (has_sigil) return false;
+
+
+    // Keep track of whether we've advanced even once. If we haven't, then that
+    // implies we've encountered `{}``, which isn't a valid `svelte_raw_text`
+    // node.
     bool advanced_once = false;
 
     if (lexer->lookahead == '/' && valid_symbols[SLASH]) {
         advance(lexer);
-        if (lexer->lookahead != '/') { // JavaScript comment
+        if (lexer->lookahead == '*') {
+            return scan_javascript_block_comment(lexer);
+        } else if (lexer->lookahead != '/') { // JavaScript comment
             return false;
         }
 
@@ -201,8 +336,38 @@ static bool scan_svelte_raw_text(TSLexer *lexer, const bool *valid_symbols) {
 
     uint8_t brace_level = 0;
 
+    // We're searching for a balanced `}`, but along the way we have to
+    // consider characters that might put us into contexts for which braces
+    // have a different meaning. For instance: a brace inside a comment
+    // shouldn't count toward brace balancing, nor should a brace inside of a
+    // string.
     while (!lexer->eof(lexer)) {
         switch (lexer->lookahead) {
+            case '/':
+                advance(lexer);
+                advanced_once = true;
+                if (lexer->lookahead == '*') {
+                    scan_javascript_block_comment(lexer);
+                }
+                break;
+            case '\\':
+                // Escape mode. Advance again.
+                advance(lexer);
+                advanced_once = true;
+                break;
+            case '"':
+            case '\'':
+                // A quoted string is starting. Advance past the end of the
+                // closing delimiter.
+                scan_javascript_quoted_string(lexer, lexer->lookahead);
+                advanced_once = true;
+                break;
+            case '`':
+                // A template string is starting. Advance past the end of the
+                // closing delimiter.
+                scan_javascript_template_string(lexer);
+                advanced_once = true;
+                break;
             case '}':
                 if (brace_level == 0) {
                     lexer->mark_end(lexer);
