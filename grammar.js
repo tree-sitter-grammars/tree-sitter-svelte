@@ -63,28 +63,31 @@ module.exports = grammar(HTML, {
       $.render_tag,
     ),
 
-    _single_quoted_attribute_value: $ => repeat(
+
+    _single_quoted_attribute_value: $ => repeat1(
       choice(
-        /[^{']+/,
-        seq(
-          '{',
-          $.svelte_raw_text,
-          '}',
-        ),
+        // Either any escaped character…
+        token(/\\./),
+        // …or any random non-expression piece of string…
+        /[^\\{']+/,
+        // …or an expression.
+        $.expression,
       ),
     ),
 
-    _double_quoted_attribute_value: $ => repeat(
+    _double_quoted_attribute_value: $ => repeat1(
       choice(
-        /[^{"]+/,
-        seq(
-          '{',
-          $.svelte_raw_text,
-          '}',
-        ),
+        // Either any escaped character…
+        token(/\\./),
+        // …or any random non-expression piece of string…
+        /[^\\{"]+/,
+        // …or an expression.
+        $.expression,
       ),
     ),
 
+    // Svelte interpolations can occur anywhere inside quoted HTML attributes,
+    // so we've got to modify `quoted_attribute_value`.
     quoted_attribute_value: $ => choice(
       seq(
         '\'',
@@ -96,12 +99,14 @@ module.exports = grammar(HTML, {
       seq(
         '"',
         optional(
-          alias($._double_quoted_attribute_value, $._quoted_attribute_value),
+          alias($._double_quoted_attribute_value, $.attribute_value),
         ),
         '"',
       ),
     ),
 
+    // Also, an expression counts as a third type of possible attribute value
+    // alongside quoted and unquoted.
     attribute: $ => seq(
       choice(
         seq(

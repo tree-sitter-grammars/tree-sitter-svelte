@@ -116,6 +116,21 @@
     }
   },
   {
+    "type": "attribute_value",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "await_end",
     "named": true,
     "fields": {},
@@ -1015,10 +1030,6 @@
   {
     "type": "as",
     "named": false
-  },
-  {
-    "type": "attribute_value",
-    "named": true
   },
   {
     "type": "await",
