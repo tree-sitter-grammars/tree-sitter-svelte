@@ -797,10 +797,6 @@
           "named": true
         },
         {
-          "type": "snippet_name",
-          "named": true
-        },
-        {
           "type": "svelte_raw_text",
           "named": true
         }
@@ -1021,10 +1017,6 @@
   },
   {
     "type": ">",
-    "named": false
-  },
-  {
-    "type": "?.",
     "named": false
   },
   {

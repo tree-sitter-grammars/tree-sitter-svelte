@@ -288,16 +288,7 @@ module.exports = grammar(HTML, {
     render_tag: $ => seq(
       '{',
       alias($._render_tag, $.expression_tag),
-      alias(/[a-zA-Z$_][a-zA-Z0-9_]*/, $.snippet_name),
-      // Since snippets can be passed around as props, Svelte supports optional
-      // chaining here — rendering a snippet if it was provided, and skipping
-      // it otherwise.
-      optional('?.'),
-      '(',
-      optional(
-        alias($.svelte_raw_text_snippet_arguments, $.svelte_raw_text),
-      ),
-      ')',
+      $._tag_value,
       '}',
     ),
 

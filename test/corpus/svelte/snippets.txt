@@ -137,13 +137,13 @@ Snippet (with nesting)
       (comment)
       (render_tag
         (expression_tag)
-        (snippet_name))
+        (svelte_raw_text))
       (snippet_end
         (block_end_tag)))
     (comment)
     (render_tag
       (expression_tag)
-      (snippet_name))
+      (svelte_raw_text))
     (end_tag
       (tag_name)))
 )
@@ -201,7 +201,6 @@ Snippet (in component)
       (tag_name))
     (render_tag
       (expression_tag)
-      (snippet_name)
       (svelte_raw_text))
     (end_tag
       (tag_name)))
@@ -220,7 +219,7 @@ Snippet (in component)
       (tag_name))
     (render_tag
       (expression_tag)
-      (snippet_name))
+      (svelte_raw_text))
     (end_tag
       (tag_name)))
 )
@@ -241,7 +240,6 @@ Snippet (in component)
       (tag_name))
     (render_tag
       (expression_tag)
-      (snippet_name)
       (svelte_raw_text))
     (end_tag
       (tag_name)))
@@ -260,7 +258,7 @@ Snippet (in component)
       (tag_name))
     (render_tag
       (expression_tag)
-      (snippet_name))
+      (svelte_raw_text))
     (end_tag
       (tag_name)))
 )
