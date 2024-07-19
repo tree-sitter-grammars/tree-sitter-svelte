@@ -8,7 +8,7 @@ Snippet
 (document
   (snippet_statement
     (snippet_start
-      (block_open_tag)
+      (block_start_tag)
       (snippet_name)
       (svelte_raw_text))
     (element
@@ -17,7 +17,7 @@ Snippet
      (end_tag
        (tag_name)))
    (snippet_end
-     (block_close_tag)))
+     (block_end_tag)))
 )
 
 ========================
@@ -29,12 +29,12 @@ Snippet (empty)
 (document
   (snippet_statement
     (snippet_start
-      (block_open_tag)
+      (block_start_tag)
       (snippet_name)
       (svelte_raw_text)
     )
     (snippet_end
-      (block_close_tag)
+      (block_end_tag)
     )
   )
 )
@@ -49,7 +49,7 @@ Snippet (without argument)
 (document
   (snippet_statement
     (snippet_start
-      (block_open_tag)
+      (block_start_tag)
       (snippet_name))
     (element
      (start_tag
@@ -57,7 +57,7 @@ Snippet (without argument)
      (end_tag
        (tag_name)))
    (snippet_end
-     (block_close_tag)))
+     (block_end_tag)))
 )
 
 ============================
@@ -70,7 +70,7 @@ Snippet (with destructuring)
 (document
   (snippet_statement
     (snippet_start
-      (block_open_tag)
+      (block_start_tag)
       (snippet_name)
       (svelte_raw_text))
     (element
@@ -79,7 +79,7 @@ Snippet (with destructuring)
      (end_tag
        (tag_name)))
    (snippet_end
-     (block_close_tag)))
+     (block_end_tag)))
 )
 
 ============================
@@ -104,20 +104,20 @@ Snippet (with nesting)
       (tag_name))
     (snippet_statement
       (snippet_start
-        (block_open_tag)
+        (block_start_tag)
         (snippet_name))
       (snippet_statement
         (snippet_start
-          (block_open_tag)
+          (block_start_tag)
           (snippet_name))
         (snippet_end
-          (block_close_tag)))
+          (block_end_tag)))
       (comment)
       (render_tag
         (expression_tag)
         (snippet_name))
       (snippet_end
-        (block_close_tag)))
+        (block_end_tag)))
     (comment)
     (render_tag
       (expression_tag)
@@ -155,14 +155,14 @@ Snippet (in component)
           (svelte_raw_text))))
     (snippet_statement
       (snippet_start
-        (block_open_tag)
+        (block_start_tag)
         (snippet_name)
         (svelte_raw_text))
       (text)
       (expression
         (svelte_raw_text))
       (snippet_end
-        (block_close_tag)))
+        (block_end_tag)))
     (end_tag
       (tag_name))))
 

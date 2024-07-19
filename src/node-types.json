@@ -139,7 +139,7 @@
       "required": true,
       "types": [
         {
-          "type": "block_close_tag",
+          "type": "block_end_tag",
           "named": true
         }
       ]
@@ -154,7 +154,7 @@
       "required": true,
       "types": [
         {
-          "type": "block_open_tag",
+          "type": "block_start_tag",
           "named": true
         },
         {
@@ -196,7 +196,7 @@
     }
   },
   {
-    "type": "block_close_tag",
+    "type": "block_end_tag",
     "named": true,
     "fields": {
       "tag": {
@@ -228,7 +228,7 @@
     }
   },
   {
-    "type": "block_open_tag",
+    "type": "block_start_tag",
     "named": true,
     "fields": {
       "tag": {
@@ -373,7 +373,7 @@
       "required": true,
       "types": [
         {
-          "type": "block_close_tag",
+          "type": "block_end_tag",
           "named": true
         }
       ]
@@ -409,7 +409,7 @@
       "required": true,
       "types": [
         {
-          "type": "block_open_tag",
+          "type": "block_start_tag",
           "named": true
         }
       ]
@@ -649,7 +649,7 @@
       "required": true,
       "types": [
         {
-          "type": "block_close_tag",
+          "type": "block_end_tag",
           "named": true
         }
       ]
@@ -675,7 +675,7 @@
       "required": true,
       "types": [
         {
-          "type": "block_open_tag",
+          "type": "block_start_tag",
           "named": true
         }
       ]
@@ -721,7 +721,7 @@
       "required": true,
       "types": [
         {
-          "type": "block_close_tag",
+          "type": "block_end_tag",
           "named": true
         }
       ]
@@ -736,7 +736,7 @@
       "required": true,
       "types": [
         {
-          "type": "block_open_tag",
+          "type": "block_start_tag",
           "named": true
         },
         {
@@ -858,7 +858,7 @@
       "required": true,
       "types": [
         {
-          "type": "block_close_tag",
+          "type": "block_end_tag",
           "named": true
         }
       ]
@@ -873,7 +873,7 @@
       "required": true,
       "types": [
         {
-          "type": "block_open_tag",
+          "type": "block_start_tag",
           "named": true
         },
         {

@@ -135,7 +135,7 @@ module.exports = grammar(HTML, {
     _if_start_tag: $ => tag('#', 'if', $),
     if_start: $ => seq(
       '{',
-      alias($._if_start_tag, $.block_open_tag),
+      alias($._if_start_tag, $.block_start_tag),
       field('condition', $.svelte_raw_text),
       '}',
     ),
@@ -165,7 +165,7 @@ module.exports = grammar(HTML, {
     ),
 
     _if_end_tag: $ => tag('/', 'if', $),
-    if_end: $ => seq('{', alias($._if_end_tag, $.block_close_tag), '}'),
+    if_end: $ => seq('{', alias($._if_end_tag, $.block_end_tag), '}'),
 
     each_statement: $ => seq(
       $.each_start,
@@ -177,7 +177,7 @@ module.exports = grammar(HTML, {
     _each_start_tag: $ => tag('#', 'each', $),
     each_start: $ => seq(
       '{',
-      alias($._each_start_tag, $.block_open_tag),
+      alias($._each_start_tag, $.block_start_tag),
       choice(
         field('identifier', $.svelte_raw_text),
         seq(
@@ -192,7 +192,7 @@ module.exports = grammar(HTML, {
     _each_end_tag: $ => tag('/', 'each', $),
     each_end: $ => seq(
       '{',
-      alias($._each_end_tag, $.block_close_tag),
+      alias($._each_end_tag, $.block_end_tag),
       '}',
     ),
 
@@ -207,7 +207,7 @@ module.exports = grammar(HTML, {
     _await_start_tag: $ => tag('#', 'await', $),
     await_start: $ => seq(
       '{',
-      alias($._await_start_tag, $.block_open_tag),
+      alias($._await_start_tag, $.block_start_tag),
       $.svelte_raw_text,
       '}',
     ),
@@ -219,7 +219,7 @@ module.exports = grammar(HTML, {
     catch_block: $ => seq('{', alias($._catch_tag, $.block_tag), optional($.svelte_raw_text), '}'),
 
     _await_end_tag: $ => tag('/', 'await', $),
-    await_end: $ => seq('{', alias($._await_end_tag, $.block_close_tag), '}'),
+    await_end: $ => seq('{', alias($._await_end_tag, $.block_end_tag), '}'),
 
     key_statement: $ => seq(
       $.key_start,
@@ -228,10 +228,10 @@ module.exports = grammar(HTML, {
     ),
 
     _key_start_tag: $ => tag('#', 'key', $),
-    key_start: $ => seq('{', alias($._key_start_tag, $.block_open_tag), $.svelte_raw_text, '}' ),
+    key_start: $ => seq('{', alias($._key_start_tag, $.block_start_tag), $.svelte_raw_text, '}' ),
 
     _key_end_tag: $ => tag('/', 'key', $),
-    key_end: $ => seq('{', alias($._key_end_tag, $.block_close_tag), '}'),
+    key_end: $ => seq('{', alias($._key_end_tag, $.block_end_tag), '}'),
 
     snippet_statement: $ => seq(
       $.snippet_start,
@@ -242,7 +242,7 @@ module.exports = grammar(HTML, {
     _snippet_start_tag: $ => tag('#', 'snippet', $),
     snippet_start: $ => seq(
       '{',
-      alias($._snippet_start_tag, $.block_open_tag),
+      alias($._snippet_start_tag, $.block_start_tag),
       alias(/[a-zA-Z$_][a-zA-Z0-9_]*/, $.snippet_name),
       '(',
       optional(
@@ -258,7 +258,7 @@ module.exports = grammar(HTML, {
     ),
 
     _snippet_end_tag: $ => tag('/', 'snippet', $),
-    snippet_end: $ => seq('{', alias($._snippet_end_tag, $.block_close_tag), '}'),
+    snippet_end: $ => seq('{', alias($._snippet_end_tag, $.block_end_tag), '}'),
 
     expression: $ => seq('{', $.svelte_raw_text, '}'),
 

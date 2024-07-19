@@ -632,7 +632,7 @@
             "name": "_if_start_tag"
           },
           "named": true,
-          "value": "block_open_tag"
+          "value": "block_start_tag"
         },
         {
           "type": "FIELD",
@@ -806,7 +806,7 @@
             "name": "_if_end_tag"
           },
           "named": true,
-          "value": "block_close_tag"
+          "value": "block_end_tag"
         },
         {
           "type": "STRING",
@@ -892,7 +892,7 @@
             "name": "_each_start_tag"
           },
           "named": true,
-          "value": "block_open_tag"
+          "value": "block_start_tag"
         },
         {
           "type": "CHOICE",
@@ -977,7 +977,7 @@
             "name": "_each_end_tag"
           },
           "named": true,
-          "value": "block_close_tag"
+          "value": "block_end_tag"
         },
         {
           "type": "STRING",
@@ -1087,7 +1087,7 @@
             "name": "_await_start_tag"
           },
           "named": true,
-          "value": "block_open_tag"
+          "value": "block_start_tag"
         },
         {
           "type": "SYMBOL",
@@ -1241,7 +1241,7 @@
             "name": "_await_end_tag"
           },
           "named": true,
-          "value": "block_close_tag"
+          "value": "block_end_tag"
         },
         {
           "type": "STRING",
@@ -1303,7 +1303,7 @@
             "name": "_key_start_tag"
           },
           "named": true,
-          "value": "block_open_tag"
+          "value": "block_start_tag"
         },
         {
           "type": "SYMBOL",
@@ -1349,7 +1349,7 @@
             "name": "_key_end_tag"
           },
           "named": true,
-          "value": "block_close_tag"
+          "value": "block_end_tag"
         },
         {
           "type": "STRING",
@@ -1411,7 +1411,7 @@
             "name": "_snippet_start_tag"
           },
           "named": true,
-          "value": "block_open_tag"
+          "value": "block_start_tag"
         },
         {
           "type": "ALIAS",
@@ -1487,7 +1487,7 @@
             "name": "_snippet_end_tag"
           },
           "named": true,
-          "value": "block_close_tag"
+          "value": "block_end_tag"
         },
         {
           "type": "STRING",
