@@ -202,20 +202,3 @@ Snippet (in component)
     (end_tag
       (tag_name)))
 )
-============================
-@debug
-============================
-<div>
-  {@debug foo}
-</div>
-------------------------
-(document
-  (element
-    (start_tag
-      (tag_name))
-    (debug_tag
-      (expression_tag)
-      (svelte_raw_text))
-    (end_tag
-      (tag_name)))
-)

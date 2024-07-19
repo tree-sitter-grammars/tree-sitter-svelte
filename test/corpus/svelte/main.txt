@@ -392,10 +392,28 @@ Dot Tags
 
 
 ========================
-Const Tags
+@const
 ========================
 {@const a = a + 1}
 ------------------------
 (document
   (const_tag (expression_tag) (svelte_raw_text))
+)
+
+============================
+@debug
+============================
+<div>
+  {@debug foo}
+</div>
+------------------------
+(document
+  (element
+    (start_tag
+      (tag_name))
+    (debug_tag
+      (expression_tag)
+      (svelte_raw_text))
+    (end_tag
+      (tag_name)))
 )
