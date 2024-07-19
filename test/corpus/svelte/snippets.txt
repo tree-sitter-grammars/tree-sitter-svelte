@@ -246,3 +246,21 @@ Snippet (in component)
     (end_tag
       (tag_name)))
 )
+
+============================
+@render (with optional invocation)
+============================
+<div>
+{@render figure?.()}
+</div>
+------------------------
+(document
+  (element
+    (start_tag
+      (tag_name))
+    (render_tag
+      (expression_tag)
+      (snippet_name))
+    (end_tag
+      (tag_name)))
+)
