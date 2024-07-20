@@ -69,41 +69,7 @@ jobs:
             !examples/svelte/packages/svelte/tests/runtime-legacy/samples/store-each-binding-destructuring/main.svelte
             !examples/svelte/packages/svelte/tests/runtime-legacy/samples/unchanged-expression-escape/main.svelte
           invalid-files: |-
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/attribute-empty/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/catch-before-closing/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/catch-without-await/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/comment-unclosed/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/else-before-closing/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/else-before-closing-2/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/else-before-closing-3/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/else-if-before-closing/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/else-if-before-closing-2/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/else-if-without-if/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/empty-attribute-shorthand/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/empty-classname-binding/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/empty-directive-name/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/illegal-expression/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/invalid-snippet-binding/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/raw-mustaches-whitespace/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/script-unclosed/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/script-unclosed-eof/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/style-unclosed/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/style-unclosed-eof/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/svelte-selfdestructive/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/then-before-closing/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/then-without-await/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/unbalanced-curly-component/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/unbalanced-curly-element/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/unclosed-attribute-self-close-tag/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/unexpected-end-of-input/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/unexpected-end-of-input-b/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/unexpected-end-of-input-c/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/unexpected-end-of-input-d/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/unmatched-closing-tag/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/unmatched-closing-tag-autoclose/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/unmatched-closing-tag-autoclose-2/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/void-closing/main.svelte
-            examples/svelte/packages/svelte/tests/compiler-errors/samples/window-children/main.svelte
+            examples/svelte/packages/svelte/tests/compiler-errors/**/*
             examples/svelte/packages/svelte/tests/validator/samples/attribute-expected-equals/input.svelte
             examples/svelte/packages/svelte/tests/validator/samples/attribute-invalid-name/input.svelte
 
