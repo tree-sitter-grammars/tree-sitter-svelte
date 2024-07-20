@@ -77,7 +77,23 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_svelte_statement"
+          "name": "if_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "each_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "await_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "key_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "snippet_statement"
         },
         {
           "type": "SYMBOL",
@@ -85,7 +101,19 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_svelte_expression"
+          "name": "html_tag"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "const_tag"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "debug_tag"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "render_tag"
         }
       ]
     },
@@ -485,31 +513,6 @@
       "type": "PATTERN",
       "value": "[^<>{}&\\s]([^<>{}&]*[^<>{}&\\s])?"
     },
-    "_svelte_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "if_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "each_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "await_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "key_statement"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "snippet_statement"
-        }
-      ]
-    },
     "_single_quoted_attribute_value": {
       "type": "REPEAT1",
       "content": {
@@ -529,14 +532,6 @@
           {
             "type": "SYMBOL",
             "name": "expression"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_svelte_expression"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_svelte_statement"
           }
         ]
       }
@@ -560,14 +555,6 @@
           {
             "type": "SYMBOL",
             "name": "expression"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_svelte_expression"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_svelte_statement"
           }
         ]
       }
@@ -1522,27 +1509,6 @@
         {
           "type": "STRING",
           "value": "}"
-        }
-      ]
-    },
-    "_svelte_expression": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "html_tag"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "const_tag"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "debug_tag"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "render_tag"
         }
       ]
     },

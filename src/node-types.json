@@ -124,43 +124,7 @@
       "required": false,
       "types": [
         {
-          "type": "await_statement",
-          "named": true
-        },
-        {
-          "type": "const_tag",
-          "named": true
-        },
-        {
-          "type": "debug_tag",
-          "named": true
-        },
-        {
-          "type": "each_statement",
-          "named": true
-        },
-        {
           "type": "expression",
-          "named": true
-        },
-        {
-          "type": "html_tag",
-          "named": true
-        },
-        {
-          "type": "if_statement",
-          "named": true
-        },
-        {
-          "type": "key_statement",
-          "named": true
-        },
-        {
-          "type": "render_tag",
-          "named": true
-        },
-        {
-          "type": "snippet_statement",
           "named": true
         }
       ]

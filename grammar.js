@@ -51,17 +51,18 @@ module.exports = grammar(HTML, {
     _node: ($, original) => choice(
       original,
 
-      $._svelte_statement,
-      $.expression,
-      $._svelte_expression,
-    ),
-
-    _svelte_statement: $ => choice(
       $.if_statement,
       $.each_statement,
       $.await_statement,
       $.key_statement,
       $.snippet_statement,
+
+      $.expression,
+
+      $.html_tag,
+      $.const_tag,
+      $.debug_tag,
+      $.render_tag,
     ),
 
     _single_quoted_attribute_value: $ => repeat1(
@@ -72,8 +73,6 @@ module.exports = grammar(HTML, {
         /[^\\{']+/,
         // …or an expression.
         $.expression,
-        $._svelte_expression,
-        $._svelte_statement,
       ),
     ),
 
@@ -85,8 +84,6 @@ module.exports = grammar(HTML, {
         /[^\\{"]+/,
         // …or an expression.
         $.expression,
-        $._svelte_expression,
-        $._svelte_statement,
       ),
     ),
 
@@ -260,13 +257,6 @@ module.exports = grammar(HTML, {
     snippet_end: $ => seq('{', alias($._snippet_end_tag, $.block_end_tag), '}'),
 
     expression: $ => seq('{', $.svelte_raw_text, '}'),
-
-    _svelte_expression: $ => choice(
-      $.html_tag,
-      $.const_tag,
-      $.debug_tag,
-      $.render_tag,
-    ),
 
     _tag_value: $ => seq(/\s+/, $.svelte_raw_text),
 
