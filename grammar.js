@@ -67,10 +67,8 @@ module.exports = grammar(HTML, {
 
     _single_quoted_attribute_value: $ => repeat1(
       choice(
-        // Either any escaped character…
-        token(/\\./),
-        // …or any random non-expression piece of string…
-        /[^\\{']+/,
+        // Either any random non-expression piece of string…
+        /[^{']+/,
         // …or an expression.
         $.expression,
       ),
@@ -78,10 +76,8 @@ module.exports = grammar(HTML, {
 
     _double_quoted_attribute_value: $ => repeat1(
       choice(
-        // Either any escaped character…
-        token(/\\./),
-        // …or any random non-expression piece of string…
-        /[^\\{"]+/,
+        // Either any random non-expression piece of string…
+        /[^{"]+/,
         // …or an expression.
         $.expression,
       ),
