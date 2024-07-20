@@ -72,6 +72,8 @@ jobs:
             examples/svelte/packages/svelte/tests/compiler-errors/**/*
             examples/svelte/packages/svelte/tests/validator/samples/attribute-expected-equals/input.svelte
             examples/svelte/packages/svelte/tests/validator/samples/attribute-invalid-name/input.svelte
+            examples/svelte/packages/svelte/tests/validator/samples/html-block-in-attribute/input.svelte
+            examples/svelte/packages/svelte/tests/validator/samples/logic-block-in-attribute/input.svelte
 
   fuzz:
     runs-on: ubuntu-latest
