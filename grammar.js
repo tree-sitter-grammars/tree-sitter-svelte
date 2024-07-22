@@ -17,6 +17,8 @@ module.exports = grammar(HTML, {
   conflicts: $ => [
     [$.else_if_block],
     [$.else_block],
+    [$.then_block],
+    [$.catch_block],
   ],
 
   externals: ($, _) => [
@@ -196,8 +198,8 @@ module.exports = grammar(HTML, {
     await_statement: $ => seq(
       $.await_start,
       repeat($._node),
-      optional(seq($.then_block, repeat($._node))),
-      optional(seq($.catch_block, repeat($._node))),
+      optional($.then_block),
+      optional($.catch_block),
       $.await_end,
     ),
 
@@ -210,10 +212,18 @@ module.exports = grammar(HTML, {
     ),
 
     _then_tag: $ => tag(':', 'then', $),
-    then_block: $ => seq('{', alias($._then_tag, $.block_tag), optional($.svelte_raw_text), '}'),
+    then_start: $ => seq('{', alias($._then_tag, $.block_tag), optional($.svelte_raw_text), '}'),
+    then_block: $ => seq(
+      $.then_start,
+      repeat($._node),
+    ),
 
     _catch_tag: $ => tag(':', 'catch', $),
-    catch_block: $ => seq('{', alias($._catch_tag, $.block_tag), optional($.svelte_raw_text), '}'),
+    catch_start: $ => seq('{', alias($._catch_tag, $.block_tag), optional($.svelte_raw_text), '}'),
+    catch_block: $ => seq(
+      $.catch_start,
+      repeat($._node),
+    ),
 
     _await_end_tag: $ => tag('/', 'await', $),
     await_end: $ => seq('{', alias($._await_end_tag, $.block_end_tag), '}'),

@@ -228,13 +228,16 @@ await
     <p></p>
 {/await}
 {#await yo thenvalue}
+	<p></p>
+{:catch err}
+	<p>Error</p>
 {/await}
 ------
 (document
     (await_statement
         (await_start (block_start_tag) (svelte_raw_text))
-				(then_block (block_tag) (svelte_raw_text))
-        (catch_block (block_tag) (svelte_raw_text))
+				(then_block (then_start (block_tag) (svelte_raw_text)))
+        (catch_block (catch_start (block_tag) (svelte_raw_text)))
 				(await_end (block_end_tag))
     )
     (await_statement
@@ -244,6 +247,10 @@ await
     )
     (await_statement
         (await_start (block_start_tag) (svelte_raw_text))
+				(element (start_tag (tag_name)) (end_tag (tag_name)))
+				(catch_block (catch_start (block_tag) (svelte_raw_text))
+					(element (start_tag (tag_name)) (text) (end_tag (tag_name)))
+				)
         (await_end (block_end_tag))
     )
 )

@@ -296,6 +296,25 @@
       "required": true,
       "types": [
         {
+          "type": "_node",
+          "named": true
+        },
+        {
+          "type": "catch_start",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "catch_start",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
           "type": "block_tag",
           "named": true
         },
@@ -950,6 +969,25 @@
   },
   {
     "type": "then_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_node",
+          "named": true
+        },
+        {
+          "type": "then_start",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "then_start",
     "named": true,
     "fields": {},
     "children": {

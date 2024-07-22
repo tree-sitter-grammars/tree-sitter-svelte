@@ -988,20 +988,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "then_block"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "_node"
-                  }
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "then_block"
             },
             {
               "type": "BLANK"
@@ -1012,20 +1000,8 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "catch_block"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "_node"
-                  }
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "catch_block"
             },
             {
               "type": "BLANK"
@@ -1104,7 +1080,7 @@
         }
       ]
     },
-    "then_block": {
+    "then_start": {
       "type": "SEQ",
       "members": [
         {
@@ -1138,6 +1114,22 @@
         }
       ]
     },
+    "then_block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "then_start"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_node"
+          }
+        }
+      ]
+    },
     "_catch_tag": {
       "type": "SEQ",
       "members": [
@@ -1158,7 +1150,7 @@
         }
       ]
     },
-    "catch_block": {
+    "catch_start": {
       "type": "SEQ",
       "members": [
         {
@@ -1189,6 +1181,22 @@
         {
           "type": "STRING",
           "value": "}"
+        }
+      ]
+    },
+    "catch_block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "catch_start"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_node"
+          }
         }
       ]
     },
@@ -1711,6 +1719,12 @@
     ],
     [
       "else_block"
+    ],
+    [
+      "then_block"
+    ],
+    [
+      "catch_block"
     ]
   ],
   "precedences": [],
