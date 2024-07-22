@@ -72,6 +72,10 @@ jobs:
             examples/svelte/packages/svelte/tests/compiler-errors/**/*
             examples/svelte/packages/svelte/tests/validator/samples/attribute-expected-equals/input.svelte
             examples/svelte/packages/svelte/tests/validator/samples/attribute-invalid-name/input.svelte
+            examples/svelte/packages/svelte/tests/validator/samples/html-block-in-attribute/input.svelte
+            examples/svelte/packages/svelte/tests/validator/samples/logic-block-in-attribute/input.svelte
+            examples/svelte/packages/svelte/tests/runtime-runes/samples/each-updates-6/main.svelte
+            examples/svelte/packages/svelte/tests/runtime-runes/samples/each-updates-7/main.svelte
 
   fuzz:
     runs-on: ubuntu-latest

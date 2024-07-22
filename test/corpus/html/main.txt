@@ -182,7 +182,7 @@ Raw text elements
 </style>
 
 <script>
-</SCRIPT>
+</script> <!-- no support for uppercase HTML tags in Svelte! -->
 
 ---
 
@@ -204,7 +204,8 @@ Raw text elements
       (tag_name))
     (raw_text)
     (end_tag
-      (tag_name))))
+      (tag_name)))
+      (comment))
 
 ==================================
 LI elements without close tags

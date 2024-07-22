@@ -1,0 +1,82 @@
+============================
+Stray braces
+============================
+<li>{foo}x</li>
+<li>{"}" + 4}</li>
+<li>{`${`}`}` /* } bar */}</li>
+------------------------
+(document
+  (element
+    (start_tag
+      (tag_name)
+    )
+    (expression
+      (svelte_raw_text)
+    )
+    (text)
+    (end_tag
+      (tag_name)
+    )
+  )
+  (element
+    (start_tag
+      (tag_name)
+    )
+    (expression
+      (svelte_raw_text)
+    )
+    (end_tag
+      (tag_name)
+    )
+  )
+  (element
+    (start_tag
+      (tag_name)
+    )
+    (expression
+      (svelte_raw_text)
+    )
+    (end_tag
+      (tag_name)
+    )
+  )
+)
+
+============================
+Line comments
+============================
+<script>
+	export let width;
+	export let height;
+</script>
+
+<svelte:window on:resize={function () {
+	// TODO for some reason this.innerWidth doesn't work as the this context is not the window object during test
+	width = window.innerWidth, height = window.innerHeight;
+}}/>
+
+<div>{width}x{height}</div>
+------------------------
+(document
+  (script_element
+    (start_tag (tag_name))
+    (raw_text)
+    (end_tag (tag_name))
+  )
+  (element
+    (self_closing_tag
+      (tag_name)
+      (attribute
+        (attribute_name)
+        (expression (svelte_raw_text))
+      )
+    )
+  )
+  (element
+    (start_tag (tag_name))
+    (expression (svelte_raw_text))
+    (text)
+    (expression (svelte_raw_text))
+    (end_tag (tag_name))
+  )
+)

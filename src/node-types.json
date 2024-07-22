@@ -116,18 +116,47 @@
     }
   },
   {
-    "type": "await_end",
+    "type": "attribute_value",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
   },
   {
-    "type": "await_start",
+    "type": "await_end",
     "named": true,
     "fields": {},
     "children": {
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "block_end_tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "await_start",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block_start_tag",
+          "named": true
+        },
         {
           "type": "svelte_raw_text",
           "named": true
@@ -167,13 +196,128 @@
     }
   },
   {
+    "type": "block_end_tag",
+    "named": true,
+    "fields": {
+      "tag": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "await",
+            "named": false
+          },
+          {
+            "type": "each",
+            "named": false
+          },
+          {
+            "type": "if",
+            "named": false
+          },
+          {
+            "type": "key",
+            "named": false
+          },
+          {
+            "type": "snippet",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "block_start_tag",
+    "named": true,
+    "fields": {
+      "tag": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "await",
+            "named": false
+          },
+          {
+            "type": "each",
+            "named": false
+          },
+          {
+            "type": "if",
+            "named": false
+          },
+          {
+            "type": "key",
+            "named": false
+          },
+          {
+            "type": "snippet",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "block_tag",
+    "named": true,
+    "fields": {
+      "tag": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "catch",
+            "named": false
+          },
+          {
+            "type": "else",
+            "named": false
+          },
+          {
+            "type": "else if",
+            "named": false
+          },
+          {
+            "type": "then",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "catch_block",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
+        {
+          "type": "_node",
+          "named": true
+        },
+        {
+          "type": "catch_start",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "catch_start",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block_tag",
+          "named": true
+        },
         {
           "type": "svelte_raw_text",
           "named": true
@@ -186,9 +330,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "expression_tag",
+          "named": true
+        },
         {
           "type": "svelte_raw_text",
           "named": true
@@ -201,9 +349,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "expression_tag",
+          "named": true
+        },
         {
           "type": "svelte_raw_text",
           "named": true
@@ -234,18 +386,49 @@
   {
     "type": "each_end",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "block_end_tag",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "each_start",
     "named": true,
-    "fields": {},
+    "fields": {
+      "identifier": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "svelte_raw_text",
+            "named": true
+          }
+        ]
+      },
+      "parameter": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "svelte_raw_text",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "svelte_raw_text",
+          "type": "block_start_tag",
           "named": true
         }
       ]
@@ -311,10 +494,14 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "_node",
+          "named": true
+        },
+        {
+          "type": "else_start",
           "named": true
         }
       ]
@@ -333,7 +520,48 @@
           "named": true
         },
         {
-          "type": "svelte_raw_text",
+          "type": "else_if_start",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "else_if_start",
+    "named": true,
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "svelte_raw_text",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "block_tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "else_start",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "block_tag",
           "named": true
         }
       ]
@@ -385,13 +613,45 @@
     }
   },
   {
+    "type": "expression_tag",
+    "named": true,
+    "fields": {
+      "tag": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "const",
+            "named": false
+          },
+          {
+            "type": "debug",
+            "named": false
+          },
+          {
+            "type": "html",
+            "named": false
+          },
+          {
+            "type": "render",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "html_tag",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "expression_tag",
+          "named": true
+        },
         {
           "type": "svelte_raw_text",
           "named": true
@@ -402,18 +662,39 @@
   {
     "type": "if_end",
     "named": true,
-    "fields": {}
-  },
-  {
-    "type": "if_start",
-    "named": true,
     "fields": {},
     "children": {
       "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "svelte_raw_text",
+          "type": "block_end_tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "if_start",
+    "named": true,
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "svelte_raw_text",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "block_start_tag",
           "named": true
         }
       ]
@@ -453,16 +734,30 @@
   {
     "type": "key_end",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "block_end_tag",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "key_start",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "block_start_tag",
+          "named": true
+        },
         {
           "type": "svelte_raw_text",
           "named": true
@@ -513,9 +808,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "expression_tag",
+          "named": true
+        },
         {
           "type": "svelte_raw_text",
           "named": true
@@ -568,16 +867,34 @@
   {
     "type": "snippet_end",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "block_end_tag",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "snippet_start",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "block_start_tag",
+          "named": true
+        },
+        {
+          "type": "snippet_name",
+          "named": true
+        },
         {
           "type": "svelte_raw_text",
           "named": true
@@ -655,9 +972,32 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
+        {
+          "type": "_node",
+          "named": true
+        },
+        {
+          "type": "then_start",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "then_start",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block_tag",
+          "named": true
+        },
         {
           "type": "svelte_raw_text",
           "named": true
@@ -675,6 +1015,14 @@
   },
   {
     "type": "'",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
     "named": false
   },
   {
@@ -718,10 +1066,6 @@
     "named": false
   },
   {
-    "type": "attribute_value",
-    "named": true
-  },
-  {
     "type": "await",
     "named": false
   },
@@ -751,6 +1095,10 @@
   },
   {
     "type": "else",
+    "named": false
+  },
+  {
+    "type": "else if",
     "named": false
   },
   {
@@ -784,6 +1132,10 @@
   {
     "type": "snippet",
     "named": false
+  },
+  {
+    "type": "snippet_name",
+    "named": true
   },
   {
     "type": "svelte_raw_text",

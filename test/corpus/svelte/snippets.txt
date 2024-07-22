@@ -1,0 +1,264 @@
+========================
+Snippet
+========================
+{#snippet figure(image)}
+	<figure></figure>
+{/snippet}
+------------------------
+(document
+  (snippet_statement
+    (snippet_start
+      (block_start_tag)
+      (snippet_name)
+      (svelte_raw_text))
+    (element
+     (start_tag
+       (tag_name))
+     (end_tag
+       (tag_name)))
+   (snippet_end
+     (block_end_tag)))
+)
+
+========================
+Snippet (empty)
+========================
+{#snippet figure(image)}
+{/snippet}
+------------------------
+(document
+  (snippet_statement
+    (snippet_start
+      (block_start_tag)
+      (snippet_name)
+      (svelte_raw_text)
+    )
+    (snippet_end
+      (block_end_tag)
+    )
+  )
+)
+
+===========================
+Snippet (without argument)
+===========================
+{#snippet figure()}
+	<figure></figure>
+{/snippet}
+------------------------
+(document
+  (snippet_statement
+    (snippet_start
+      (block_start_tag)
+      (snippet_name))
+    (element
+     (start_tag
+       (tag_name))
+     (end_tag
+       (tag_name)))
+   (snippet_end
+     (block_end_tag)))
+)
+
+============================
+Snippet (with destructuring)
+============================
+{#snippet figure({ src, caption, width, height })}
+	<figure></figure>
+{/snippet}
+------------------------
+(document
+  (snippet_statement
+    (snippet_start
+      (block_start_tag)
+      (snippet_name)
+      (svelte_raw_text))
+    (element
+     (start_tag
+       (tag_name))
+     (end_tag
+       (tag_name)))
+   (snippet_end
+     (block_end_tag)))
+)
+
+============================
+Snippet (with destructuring and default params)
+============================
+{#snippet figure({ src, caption = "a caption goes here :)", width = 20, height = 20, onclick = () => {} })}
+	<figure></figure>
+{/snippet}
+------------------------
+(document
+  (snippet_statement
+    (snippet_start
+      (block_start_tag)
+      (snippet_name)
+      (svelte_raw_text))
+    (element
+     (start_tag
+       (tag_name))
+     (end_tag
+       (tag_name)))
+   (snippet_end
+     (block_end_tag)))
+)
+
+============================
+Snippet (with nesting)
+============================
+<div>
+	{#snippet x()}
+		{#snippet y()}
+    {/snippet}
+
+		<!-- this is fine -->
+		{@render y()}
+	{/snippet}
+
+	<!-- this will error, as `y` is not in scope -->
+	{@render y()}
+</div>
+------------------------
+(document
+  (element
+    (start_tag
+      (tag_name))
+    (snippet_statement
+      (snippet_start
+        (block_start_tag)
+        (snippet_name))
+      (snippet_statement
+        (snippet_start
+          (block_start_tag)
+          (snippet_name))
+        (snippet_end
+          (block_end_tag)))
+      (comment)
+      (render_tag
+        (expression_tag)
+        (svelte_raw_text))
+      (snippet_end
+        (block_end_tag)))
+    (comment)
+    (render_tag
+      (expression_tag)
+      (svelte_raw_text))
+    (end_tag
+      (tag_name)))
+)
+
+============================
+Snippet (in component)
+============================
+<script>
+	import Button from './Button.svelte';
+</script>
+
+<Button onclick={() => alert('Clicked the button')}>
+	{#snippet children(prop)}
+		click {prop}
+	{/snippet}
+</Button>
+------------------------
+(document
+  (script_element
+    (start_tag
+      (tag_name))
+    (raw_text)
+    (end_tag
+      (tag_name)))
+  (element
+    (start_tag
+      (tag_name)
+      (attribute
+        (attribute_name)
+        (expression
+          (svelte_raw_text))))
+    (snippet_statement
+      (snippet_start
+        (block_start_tag)
+        (snippet_name)
+        (svelte_raw_text))
+      (text)
+      (expression
+        (svelte_raw_text))
+      (snippet_end
+        (block_end_tag)))
+    (end_tag
+      (tag_name))))
+
+============================
+@render
+============================
+<div>
+  {@render figure(image)}
+</div>
+------------------------
+(document
+  (element
+    (start_tag
+      (tag_name))
+    (render_tag
+      (expression_tag)
+      (svelte_raw_text))
+    (end_tag
+      (tag_name)))
+)
+
+============================
+@render (without argument)
+============================
+<div>
+  {@render figure()}
+</div>
+------------------------
+(document
+  (element
+    (start_tag
+      (tag_name))
+    (render_tag
+      (expression_tag)
+      (svelte_raw_text))
+    (end_tag
+      (tag_name)))
+)
+
+============================
+@render (with complex argument)
+============================
+<div>
+  {@render figure({ onclick: () => {
+    /* heh :) */
+    console.log('clicked :)')
+  }})}
+</div>
+------------------------
+(document
+  (element
+    (start_tag
+      (tag_name))
+    (render_tag
+      (expression_tag)
+      (svelte_raw_text))
+    (end_tag
+      (tag_name)))
+)
+
+============================
+@render (with optional invocation)
+============================
+<div>
+{@render figure?.()}
+</div>
+------------------------
+(document
+  (element
+    (start_tag
+      (tag_name))
+    (render_tag
+      (expression_tag)
+      (svelte_raw_text))
+    (end_tag
+      (tag_name)))
+)
