@@ -65,6 +65,23 @@ Raw Text Expression
         (end_tag (tag_name)))
 )
 
+================
+Expression with newlines
+================
+<h1>Hello {
+	world
+}!</h1>
+----
+
+(document
+    (element
+        (start_tag (tag_name))
+        (text)
+        (expression (svelte_raw_text))
+        (text)
+        (end_tag (tag_name)))
+)
+
 ==============
 Dynamic Expression Attribute
 ==============
@@ -192,12 +209,28 @@ each (with unusual values)
   {elem}
 {/each}
 
+{#each [{ foo: "bar" }, { baz: "thud" }] as pair}
+  {elem}
+{/each}
+
 {#each [["a", "b"], ["c", "d"]] as pair}
   {#each pair as letter}{letter}{/each}
 {/each}
 
+{#each ["a", y, ...foo] as item}
+	{item}
+{/each}
+
+{#each { foo: [1, 2, 3] }["foo"] as num}
+	{num}
+{/each}
+
 -------
 (document
+  (each_statement
+    (each_start (block_start_tag) (svelte_raw_text) (svelte_raw_text))
+    (expression (svelte_raw_text))
+    (each_end (block_end_tag)))
   (each_statement
     (each_start (block_start_tag) (svelte_raw_text) (svelte_raw_text))
     (expression (svelte_raw_text))
@@ -214,6 +247,14 @@ each (with unusual values)
       (each_end (block_end_tag)))
     (each_end (block_end_tag))
   )
+	(each_statement
+    (each_start (block_start_tag) (svelte_raw_text) (svelte_raw_text))
+    (expression (svelte_raw_text))
+    (each_end (block_end_tag)))
+  (each_statement
+    (each_start (block_start_tag) (svelte_raw_text) (svelte_raw_text))
+    (expression (svelte_raw_text))
+    (each_end (block_end_tag)))
 )
 
 =======================
