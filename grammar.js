@@ -2,10 +2,9 @@
  * @file Svelte grammar for tree-sitter
  * @author Amaan Qureshi <amaanq12@gmail.com>
  * @license MIT
- * @see {@link https://svelte.dev/|Official website}
+ * @see {@link https://svelte.dev|Official website}
  */
 
-// eslint-disable-next-line spaced-comment
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
@@ -235,7 +234,7 @@ module.exports = grammar(HTML, {
     ),
 
     _key_start_tag: _ => tag('#', 'key'),
-    key_start: $ => seq('{', alias($._key_start_tag, $.block_start_tag), $.svelte_raw_text, '}' ),
+    key_start: $ => seq('{', alias($._key_start_tag, $.block_start_tag), $.svelte_raw_text, '}'),
 
     _key_end_tag: _ => tag('/', 'key'),
     key_end: $ => seq('{', alias($._key_end_tag, $.block_end_tag), '}'),

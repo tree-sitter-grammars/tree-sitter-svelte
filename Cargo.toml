@@ -1,7 +1,7 @@
 [package]
-name = "tree-sitter-svelte"
+name = "tree-sitter-svelte-ng"
 description = "Svelte grammar for tree-sitter"
-version = "0.0.1"
+version = "1.0.0"
 authors = ["Amaan Qureshi <amaanq12@gmail.com>"]
 license = "MIT"
 readme = "bindings/rust/README.md"
@@ -18,7 +18,10 @@ include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "~0.20.10"
+tree-sitter-language = "0.1.0"
 
 [build-dependencies]
-cc = "1.0"
+cc = "1.1.17"
+
+[dev-dependencies]
+tree-sitter = "0.23"

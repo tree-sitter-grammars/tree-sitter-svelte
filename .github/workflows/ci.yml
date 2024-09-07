@@ -47,6 +47,10 @@ jobs:
         uses: tree-sitter/parser-test-action@v2
         with:
           test-rust: ${{runner.os == 'Linux'}}
+          test-node: true
+          test-python: true
+          test-go: true
+          test-swift: ${{runner.os == 'macOS'}}
       - name: Parse examples
         uses: tree-sitter/parse-action@v4
         with:
@@ -76,37 +80,3 @@ jobs:
             examples/svelte/packages/svelte/tests/validator/samples/logic-block-in-attribute/input.svelte
             examples/svelte/packages/svelte/tests/runtime-runes/samples/each-updates-6/main.svelte
             examples/svelte/packages/svelte/tests/runtime-runes/samples/each-updates-7/main.svelte
-
-  fuzz:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-      - name: Check for scanner changes
-        id: scanner-changes
-        run: |-
-          if git diff --quiet HEAD^ -- src/scanner.c; then
-            printf 'changed=false\n' >> "$GITHUB_OUTPUT"
-          else
-            printf 'changed=true\n' >> "$GITHUB_OUTPUT"
-          fi
-      - name: Fuzz parser
-        uses: tree-sitter/fuzz-action@v4
-        if: steps.scanner-changes.outputs.changed == 'true'
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          cache: npm
-          node-version: ${{vars.NODE_VERSION}}
-      - name: Install dependencies
-        run: npm ci --ignore-scripts
-      - name: Run ESLint
-        run: npm run lint
