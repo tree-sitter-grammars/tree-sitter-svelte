@@ -402,9 +402,8 @@ static bool scan_svelte_raw_text(TSLexer *lexer, const bool *valid_symbols) {
         return false;
     }
 
-    // EXPERIMENT: If it starts with a sigil, it can't be raw text, right?
-    // This should help prevent false positives in situations where (e.g.) both
-    // `{:else}` and `{/* arbitrary expression */}` are valid.
+    // The presence of a special Svelte sigil disqualifies this as a raw text
+    // node. This helps us distinguish those nodes from things like `{:else}`.
     bool has_sigil = lexer->lookahead == '@' || lexer->lookahead == '#' || lexer->lookahead == ':';
     if (has_sigil) return false;
 
