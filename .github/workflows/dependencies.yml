@@ -22,3 +22,6 @@ jobs:
           node-version: ${{vars.NODE_VERSION}}
       - name: Update dependencies
         uses: tree-sitter/parser-update-action@v1.1
+        with:
+          parent-name: html
+          language-name: svelte

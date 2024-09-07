@@ -1,0 +1,42 @@
+[
+  {
+    "directory": "/home/amaanq/projects/treesitter/tree-sitter-svelte",
+    "file": "src/parser.c",
+    "output": "/tmp/parser-d47707.o",
+    "arguments": [
+      "/usr/bin/clang-17",
+      "-xc",
+      "src/parser.c",
+      "-o",
+      "/tmp/parser-d47707.o",
+      "-I",
+      "src/",
+      "-shared",
+      "-fPIC",
+      "-O3",
+      "-dumpdir",
+      "a-",
+      "--target=x86_64-pc-linux-gnu"
+    ]
+  },
+  {
+    "directory": "/home/amaanq/projects/treesitter/tree-sitter-svelte",
+    "file": "src/scanner.c",
+    "output": "/tmp/scanner-9d9e62.o",
+    "arguments": [
+      "/usr/bin/clang-17",
+      "-xc",
+      "src/scanner.c",
+      "-o",
+      "/tmp/scanner-9d9e62.o",
+      "-I",
+      "src/",
+      "-shared",
+      "-fPIC",
+      "-O3",
+      "-dumpdir",
+      "a-",
+      "--target=x86_64-pc-linux-gnu"
+    ]
+  }
+]
