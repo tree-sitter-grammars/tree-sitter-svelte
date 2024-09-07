@@ -2,6 +2,7 @@
  * @file Svelte grammar for tree-sitter
  * @author Amaan Qureshi <amaanq12@gmail.com>
  * @license MIT
+ * @see {@link https://svelte.dev/|Official website}
  */
 
 // eslint-disable-next-line spaced-comment
@@ -16,9 +17,11 @@ module.exports = grammar(HTML, {
   conflicts: $ => [
     [$.else_if_block],
     [$.else_block],
+    [$.then_block],
+    [$.catch_block],
   ],
 
-  externals: $ => [
+  externals: ($, _) => [
     $._start_tag_name,
     $._script_start_tag_name,
     $._style_start_tag_name,
@@ -30,6 +33,7 @@ module.exports = grammar(HTML, {
     $.comment,
     $.svelte_raw_text,
     $.svelte_raw_text_each,
+    $.svelte_raw_text_snippet_arguments,
     '@',
     '#',
     '/',
@@ -56,12 +60,52 @@ module.exports = grammar(HTML, {
       $.snippet_statement,
 
       $.expression,
+
       $.html_tag,
       $.const_tag,
       $.debug_tag,
       $.render_tag,
     ),
 
+    _single_quoted_attribute_value: $ => repeat1(
+      choice(
+        // Either any random non-expression piece of string…
+        /[^{']+/,
+        // …or an expression.
+        $.expression,
+      ),
+    ),
+
+    _double_quoted_attribute_value: $ => repeat1(
+      choice(
+        // Either any random non-expression piece of string…
+        /[^{"]+/,
+        // …or an expression.
+        $.expression,
+      ),
+    ),
+
+    // Svelte interpolations can occur anywhere inside quoted HTML attributes,
+    // so we've got to modify `quoted_attribute_value`.
+    quoted_attribute_value: $ => choice(
+      seq(
+        '\'',
+        optional(
+          alias($._single_quoted_attribute_value, $.attribute_value),
+        ),
+        '\'',
+      ),
+      seq(
+        '"',
+        optional(
+          alias($._double_quoted_attribute_value, $.attribute_value),
+        ),
+        '"',
+      ),
+    ),
+
+    // Also, an expression counts as a third type of possible attribute value
+    // alongside quoted and unquoted.
     attribute: $ => seq(
       choice(
         seq(
@@ -87,27 +131,40 @@ module.exports = grammar(HTML, {
       $.if_end,
     ),
 
-    if_start: $ => seq('{', '#', token.immediate('if'), $.svelte_raw_text, '}'),
+    _if_start_tag: _ => tag('#', 'if'),
+    if_start: $ => seq(
+      '{',
+      alias($._if_start_tag, $.block_start_tag),
+      field('condition', $.svelte_raw_text),
+      '}',
+    ),
+
+    _else_if_tag: _ => tag(':', 'else if'),
+    else_if_start: $ => seq(
+      '{',
+      alias($._else_if_tag, $.block_tag),
+      field('condition', $.svelte_raw_text),
+      '}',
+    ),
 
     else_if_block: $ => seq(
-      '{',
-      ':',
-      token.immediate('else'),
-      'if',
-      $.svelte_raw_text,
-      '}',
+      $.else_if_start,
       repeat($._node),
     ),
 
+    _else_tag: _ => tag(':', 'else'),
+    else_start: $ => seq(
+      '{',
+      alias($._else_tag, $.block_tag),
+      '}',
+    ),
     else_block: $ => seq(
-      '{',
-      ':',
-      token.immediate('else'),
-      '}',
+      $.else_start,
       repeat($._node),
     ),
 
-    if_end: _ => seq('{', '/', token.immediate('if'), '}'),
+    _if_end_tag: _ => tag('/', 'if'),
+    if_end: $ => seq('{', alias($._if_end_tag, $.block_end_tag), '}'),
 
     each_statement: $ => seq(
       $.each_start,
@@ -116,34 +173,60 @@ module.exports = grammar(HTML, {
       $.each_end,
     ),
 
+    _each_start_tag: _ => tag('#', 'each'),
     each_start: $ => seq(
       '{',
-      '#',
-      token.immediate('each'),
+      alias($._each_start_tag, $.block_start_tag),
       choice(
-        $.svelte_raw_text,
-        seq(alias($.svelte_raw_text_each, $.svelte_raw_text), 'as', $.svelte_raw_text),
+        field('identifier', $.svelte_raw_text),
+        seq(
+          field('identifier', alias($.svelte_raw_text_each, $.svelte_raw_text)),
+          'as',
+          field('parameter', $.svelte_raw_text),
+        ),
       ),
       '}',
     ),
 
-    each_end: _ => seq('{', '/', token.immediate('each'), '}'),
+    _each_end_tag: _ => tag('/', 'each'),
+    each_end: $ => seq(
+      '{',
+      alias($._each_end_tag, $.block_end_tag),
+      '}',
+    ),
 
     await_statement: $ => seq(
       $.await_start,
       repeat($._node),
-      optional(seq($.then_block, repeat($._node))),
-      optional(seq($.catch_block, repeat($._node))),
+      optional($.then_block),
+      optional($.catch_block),
       $.await_end,
     ),
 
-    await_start: $ => seq('{', '#', token.immediate('await'), $.svelte_raw_text, '}'),
+    _await_start_tag: _ => tag('#', 'await'),
+    await_start: $ => seq(
+      '{',
+      alias($._await_start_tag, $.block_start_tag),
+      $.svelte_raw_text,
+      '}',
+    ),
 
-    then_block: $ => seq('{', ':', token.immediate('then'), optional($.svelte_raw_text), '}'),
+    _then_tag: _ => tag(':', 'then'),
+    then_start: $ => seq('{', alias($._then_tag, $.block_tag), optional($.svelte_raw_text), '}'),
+    then_block: $ => seq(
+      $.then_start,
+      repeat($._node),
+    ),
 
-    catch_block: $ => seq('{', ':', 'catch', optional($.svelte_raw_text), '}'),
+    _catch_tag: _ => tag(':', 'catch'),
+    catch_start: $ => seq('{', alias($._catch_tag, $.block_tag), optional($.svelte_raw_text), '}'),
+    catch_block: $ => seq(
+      $.catch_start,
+      repeat($._node),
+    ),
 
-    await_end: _ => seq('{', '/', token.immediate('await'), '}'),
+    _await_end_tag: _ => tag('/', 'await'),
+    await_end: $ => seq('{', alias($._await_end_tag, $.block_end_tag), '}'),
 
     key_statement: $ => seq(
       $.key_start,
@@ -151,15 +234,11 @@ module.exports = grammar(HTML, {
       $.key_end,
     ),
 
-    key_start: $ => seq(
-      '{',
-      '#',
-      token.immediate('key'),
-      $.svelte_raw_text,
-      '}',
-    ),
+    _key_start_tag: _ => tag('#', 'key'),
+    key_start: $ => seq('{', alias($._key_start_tag, $.block_start_tag), $.svelte_raw_text, '}' ),
 
-    key_end: _ => seq('{', '/', token.immediate('key'), '}'),
+    _key_end_tag: _ => tag('/', 'key'),
+    key_end: $ => seq('{', alias($._key_end_tag, $.block_end_tag), '}'),
 
     snippet_statement: $ => seq(
       $.snippet_start,
@@ -167,47 +246,55 @@ module.exports = grammar(HTML, {
       $.snippet_end,
     ),
 
+    _snippet_start_tag: _ => tag('#', 'snippet'),
     snippet_start: $ => seq(
       '{',
-      '#',
-      token.immediate('snippet'),
-      $.svelte_raw_text,
+      alias($._snippet_start_tag, $.block_start_tag),
+      alias(/[a-zA-Z$_][a-zA-Z0-9_]*/, $.snippet_name),
+      '(',
+      optional(
+        alias($.svelte_raw_text_snippet_arguments, $.svelte_raw_text),
+      ),
+      ')',
       '}',
     ),
 
-    snippet_end: _ => seq('{', '/', token.immediate('snippet'), '}'),
+    _snippet_end_tag: _ => tag('/', 'snippet'),
+    snippet_end: $ => seq('{', alias($._snippet_end_tag, $.block_end_tag), '}'),
 
     expression: $ => seq('{', $.svelte_raw_text, '}'),
 
+    _tag_value: $ => seq(/\s+/, $.svelte_raw_text),
+
+    _html_tag: _ => tag('@', 'html'),
     html_tag: $ => seq(
       '{',
-      '@',
-      token.immediate('html'),
-      $.svelte_raw_text,
+      alias($._html_tag, $.expression_tag),
+      $._tag_value,
       '}',
     ),
 
+    _const_tag: _ => tag('@', 'const'),
     const_tag: $ => seq(
       '{',
-      '@',
-      token.immediate('const'),
-      $.svelte_raw_text,
+      alias($._const_tag, $.expression_tag),
+      $._tag_value,
       '}',
     ),
 
+    _debug_tag: _ => tag('@', 'debug'),
     debug_tag: $ => seq(
       '{',
-      '@',
-      token.immediate('debug'),
-      $.svelte_raw_text,
+      alias($._debug_tag, $.expression_tag),
+      $._tag_value,
       '}',
     ),
 
+    _render_tag: _ => tag('@', 'render'),
     render_tag: $ => seq(
       '{',
-      '@',
-      token.immediate('render'),
-      $.svelte_raw_text,
+      alias($._render_tag, $.expression_tag),
+      $._tag_value,
       '}',
     ),
 
@@ -218,3 +305,15 @@ module.exports = grammar(HTML, {
     text: _ => /[^<>{}&\s]([^<>{}&]*[^<>{}&\s])?/,
   },
 });
+
+/**
+ * @param  {string} sym
+ * @param  {string} text
+ * @return {SeqRule}
+ */
+function tag(sym, text) {
+  return seq(
+    sym,
+    field('tag', token.immediate(text)),
+  );
+}

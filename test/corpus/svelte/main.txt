@@ -1,0 +1,467 @@
+===================================
+Simple example
+===================================
+<script>
+	let count = 0;
+
+	function increment() {
+		count += 1;
+	}
+</script>
+
+<button on:click={increment}>
+	Clicked {count}
+	{count === 1 ? 'time' : 'times'}
+</button>
+---
+
+(document
+	(script_element
+		(start_tag
+			(tag_name)
+		)
+		(raw_text)
+		(end_tag
+			(tag_name)
+		)
+	)
+	(element
+		(start_tag
+			(tag_name)
+			(attribute
+				(attribute_name)
+				(expression (svelte_raw_text))
+			)
+		)
+		(text)
+		(expression (svelte_raw_text))
+		(expression (svelte_raw_text))
+		(end_tag
+			(tag_name)
+		)
+	)
+)
+
+================
+Raw Text Expression
+================
+<script context="module">
+    let name = 'world';
+</script>
+<h1>Hello {name'<>{}``"\''""``{}}!</h1>
+----
+
+(document
+    (script_element
+        (start_tag (tag_name)
+            (attribute (attribute_name) (quoted_attribute_value (attribute_value))))
+        (raw_text)
+        (end_tag (tag_name)))
+    (element
+        (start_tag (tag_name))
+        (text)
+        (expression (svelte_raw_text))
+        (text)
+        (end_tag (tag_name)))
+)
+
+================
+Expression with newlines
+================
+<h1>Hello {
+	world
+}!</h1>
+----
+
+(document
+    (element
+        (start_tag (tag_name))
+        (text)
+        (expression (svelte_raw_text))
+        (text)
+        (end_tag (tag_name)))
+)
+
+==============
+Dynamic Expression Attribute
+==============
+<img src={src} alt="A man dances">
+<Info {...pkg} />
+----
+(document
+    (element
+        (start_tag (tag_name)
+            (attribute (attribute_name) (expression (svelte_raw_text)))
+            (attribute (attribute_name) (quoted_attribute_value (attribute_value)))
+        )
+
+  )
+    (element
+        (self_closing_tag
+            (tag_name)
+            (attribute (attribute_name (svelte_raw_text)))
+        )
+    )
+)
+
+==============
+Expressions inside string attribute value
+==============
+<img src="/static/{src}?dancer={dancer}" alt="{dancer} dances">
+----
+(document
+  (element
+    (start_tag (tag_name)
+      (attribute (attribute_name) (quoted_attribute_value (attribute_value (expression (svelte_raw_text)) (expression (svelte_raw_text)))))
+      (attribute (attribute_name) (quoted_attribute_value (attribute_value (expression (svelte_raw_text)))))
+    )
+  )
+)
+
+===============
+logical_blocks
+===============
+{#if user.loggedIn}hello
+	<button on:click={toggle}>logged in</button>
+{:else if hello}
+    <li></li>
+{:else}
+{/if}
+
+{hello}
+{#each cats as cat}
+    <li></li>
+{/each}
+
+{#each cats as cat (hello)}
+  <div>Hello</div>
+{:else}
+  <li>Hello</li>
+{/each}
+
+{#each user.codes.filter(codeNotBlocked) as someItem (someItem.id)}
+{/each}
+
+{ thenRandomExpr }
+{ @html '<p>hello world</p>'}
+{{}}
+-------
+(document
+	(if_statement
+		(if_start (block_start_tag) (svelte_raw_text))
+    (text)
+    (element
+      (start_tag
+				(tag_name)
+				(attribute (attribute_name)
+					(expression (svelte_raw_text))
+				)
+			)
+			(text)
+			(end_tag (tag_name))
+		)
+		(else_if_block
+			(else_if_start (block_tag) (svelte_raw_text))
+			(element
+				(start_tag (tag_name))
+				(end_tag (tag_name))
+			)
+    )
+		(else_block (else_start (block_tag)))
+		(if_end (block_end_tag))
+  )
+	(expression (svelte_raw_text))
+	(each_statement
+		(each_start
+			(block_start_tag)
+			(svelte_raw_text)
+			(svelte_raw_text)
+		)
+		(element (start_tag (tag_name)) (end_tag (tag_name)))
+		(each_end (block_end_tag))
+  )
+	(each_statement
+		(each_start (block_start_tag) (svelte_raw_text) (svelte_raw_text))
+		(element (start_tag (tag_name)) (text) (end_tag (tag_name)))
+		(else_block
+			(else_start (block_tag))
+		)
+		(element (start_tag (tag_name)) (text) (end_tag (tag_name)))
+		(each_end (block_end_tag))
+  )
+	(each_statement
+		(each_start (block_start_tag) (svelte_raw_text) (svelte_raw_text))
+		(each_end (block_end_tag))
+	)
+	(expression (svelte_raw_text))
+	(html_tag (expression_tag) (svelte_raw_text))
+	(expression (svelte_raw_text))
+)
+
+==========================
+each (with unusual values)
+==========================
+{#each "abcd" as letter}
+  {letter}
+{/each}
+
+{#each ["a", "b"] as elem}
+  {elem}
+{/each}
+
+{#each [{ foo: "bar" }, { baz: "thud" }] as pair}
+  {elem}
+{/each}
+
+{#each [["a", "b"], ["c", "d"]] as pair}
+  {#each pair as letter}{letter}{/each}
+{/each}
+
+{#each ["a", y, ...foo] as item}
+	{item}
+{/each}
+
+{#each { foo: [1, 2, 3] }["foo"] as num}
+	{num}
+{/each}
+
+-------
+(document
+  (each_statement
+    (each_start (block_start_tag) (svelte_raw_text) (svelte_raw_text))
+    (expression (svelte_raw_text))
+    (each_end (block_end_tag)))
+  (each_statement
+    (each_start (block_start_tag) (svelte_raw_text) (svelte_raw_text))
+    (expression (svelte_raw_text))
+    (each_end (block_end_tag)))
+  (each_statement
+    (each_start (block_start_tag) (svelte_raw_text) (svelte_raw_text))
+    (expression (svelte_raw_text))
+    (each_end (block_end_tag)))
+  (each_statement
+    (each_start (block_start_tag) (svelte_raw_text) (svelte_raw_text))
+    (each_statement
+      (each_start (block_start_tag) (svelte_raw_text) (svelte_raw_text))
+      (expression (svelte_raw_text))
+      (each_end (block_end_tag)))
+    (each_end (block_end_tag))
+  )
+	(each_statement
+    (each_start (block_start_tag) (svelte_raw_text) (svelte_raw_text))
+    (expression (svelte_raw_text))
+    (each_end (block_end_tag)))
+  (each_statement
+    (each_start (block_start_tag) (svelte_raw_text) (svelte_raw_text))
+    (expression (svelte_raw_text))
+    (each_end (block_end_tag)))
+)
+
+=======================
+await
+========================
+{#await promise}
+{:then number}
+{:catch error}
+{/await}
+
+{#await promise then value}
+    <p></p>
+{/await}
+{#await yo thenvalue}
+	<p></p>
+{:catch err}
+	<p>Error</p>
+{/await}
+------
+(document
+    (await_statement
+        (await_start (block_start_tag) (svelte_raw_text))
+				(then_block (then_start (block_tag) (svelte_raw_text)))
+        (catch_block (catch_start (block_tag) (svelte_raw_text)))
+				(await_end (block_end_tag))
+    )
+    (await_statement
+        (await_start (block_start_tag) (svelte_raw_text))
+        (element (start_tag (tag_name)) (end_tag (tag_name)))
+        (await_end (block_end_tag))
+    )
+    (await_statement
+        (await_start (block_start_tag) (svelte_raw_text))
+				(element (start_tag (tag_name)) (end_tag (tag_name)))
+				(catch_block (catch_start (block_tag) (svelte_raw_text))
+					(element (start_tag (tag_name)) (text) (end_tag (tag_name)))
+				)
+        (await_end (block_end_tag))
+    )
+)
+
+====================
+Special elements
+=====================
+<svelte:head>
+    <link rel="stylesheet" href="tutorial/dark-theme.css"/>
+</svelte:head>
+<svelte:options immutable={true} />
+----
+(document
+    (element
+        (start_tag (tag_name))
+        (element
+            (self_closing_tag (tag_name)
+                (attribute (attribute_name) (quoted_attribute_value (attribute_value)))
+                (attribute (attribute_name) (quoted_attribute_value (attribute_value)))
+            )
+        )
+        (end_tag (tag_name))
+    )
+    (element
+        (self_closing_tag (tag_name)
+            (attribute (attribute_name)
+                (expression (svelte_raw_text))
+            )
+        )
+    )
+)
+
+========================
+if-else-nested
+========================
+{#if something}
+    text
+{:else if someOtherThing}
+    text2
+  {#if something}
+    text3
+  {:else if someOtherThing}
+    text4
+  {:else}
+    text5
+  {/if}
+{:else}
+    text6
+{/if}
+---
+(document
+  (if_statement
+		(if_start (block_start_tag) (svelte_raw_text))
+		(text)
+    (else_if_block
+			(else_if_start (block_tag) (svelte_raw_text))
+			(text)
+      (if_statement
+				(if_start (block_start_tag) (svelte_raw_text))
+				(text)
+				(else_if_block
+					(else_if_start (block_tag) (svelte_raw_text))
+					(text)
+				)
+				(else_block
+					(else_start (block_tag))
+					(text)
+				)
+				(if_end (block_end_tag))
+			)
+		)
+		(else_block
+			(else_start (block_tag))
+			(text)
+		)
+		(if_end (block_end_tag))
+	)
+)
+
+========================
+script-tag-inside-svelte:head
+========================
+<svelte:head>
+  <script>console.log("Hello World!")</script>
+</svelte:head>
+---
+(document
+  (element
+    (start_tag
+      (tag_name))
+    (script_element
+      (start_tag
+        (tag_name))
+      (raw_text)
+      (end_tag
+        (tag_name)))
+    (end_tag
+      (tag_name))))
+
+========================
+key statement
+========================
+{#key foo}
+  <div>bar</div>
+{/key}
+---
+(document
+  (key_statement
+    (key_start
+      (block_start_tag)
+      (svelte_raw_text)
+		)
+    (element
+      (start_tag
+        (tag_name)
+			)
+      (text)
+      (end_tag
+        (tag_name)
+			)
+		)
+    (key_end
+      (block_end_tag)
+		)
+	)
+)
+
+=====================
+Dot Tags
+=====================
+<Input.App>
+  <span>bar</span>
+</Input.App>
+---------------------
+(document
+  (element
+    (start_tag (tag_name))
+    (element
+      (start_tag (tag_name))
+      (text)
+      (end_tag (tag_name))
+    )
+    (end_tag (tag_name))
+  )
+)
+
+
+========================
+@const
+========================
+{@const a = a + 1}
+------------------------
+(document
+  (const_tag (expression_tag) (svelte_raw_text))
+)
+
+============================
+@debug
+============================
+<div>
+  {@debug foo}
+</div>
+------------------------
+(document
+  (element
+    (start_tag
+      (tag_name))
+    (debug_tag
+      (expression_tag)
+      (svelte_raw_text))
+    (end_tag
+      (tag_name)))
+)
