@@ -17,7 +17,7 @@
 [pypi]: https://img.shields.io/pypi/v/tree-sitter-svelte?logo=pypi&logoColor=ffd242
 
 
-# Contributing
+## Contributing
 
 
 ### Building the parser
