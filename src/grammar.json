@@ -1,5 +1,6 @@
 {
   "name": "svelte",
+  "inherits": "html",
   "rules": {
     "document": {
       "type": "REPEAT",
