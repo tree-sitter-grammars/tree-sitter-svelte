@@ -24,3 +24,84 @@ Modifier directives
     )
   )
 )
+
+
+================
+Class directives
+================
+
+<div class:foo={true}/>
+
+---
+
+(document
+  (element
+    (self_closing_tag
+      (tag_name)
+      (attribute
+        (attribute_name
+          (attribute_directive)
+          (attribute_identifier)
+        )
+        (expression
+          (svelte_raw_text)
+        )
+      )
+    )
+  )
+)
+
+================
+Style directives
+================
+
+<div style:color={"red"}/>
+<div style:font-size={"10px"}/>
+<div style:--foo={"red"}/>
+
+---
+
+(document
+  (element
+    (self_closing_tag
+      (tag_name)
+      (attribute
+        (attribute_name
+          (attribute_directive)
+          (attribute_identifier)
+        )
+        (expression
+          (svelte_raw_text)
+        )
+      )
+    )
+  )
+  (element
+    (self_closing_tag
+      (tag_name)
+      (attribute
+        (attribute_name
+          (attribute_directive)
+          (attribute_identifier)
+        )
+        (expression
+          (svelte_raw_text)
+        )
+      )
+    )
+  )
+  (element
+    (self_closing_tag
+      (tag_name)
+      (attribute
+        (attribute_name
+          (attribute_directive)
+          (attribute_identifier)
+        )
+        (expression
+          (svelte_raw_text)
+        )
+      )
+    )
+  )
+)
