@@ -38,6 +38,7 @@ module.exports = grammar(HTML, {
     '#',
     '/',
     ':',
+    '|',
   ],
 
   extras: $ => [
@@ -235,7 +236,7 @@ module.exports = grammar(HTML, {
     ),
 
     _key_start_tag: _ => tag('#', 'key'),
-    key_start: $ => seq('{', alias($._key_start_tag, $.block_start_tag), $.svelte_raw_text, '}' ),
+    key_start: $ => seq('{', alias($._key_start_tag, $.block_start_tag), $.svelte_raw_text, '}'),
 
     _key_end_tag: _ => tag('/', 'key'),
     key_end: $ => seq('{', alias($._key_end_tag, $.block_end_tag), '}'),
@@ -298,7 +299,29 @@ module.exports = grammar(HTML, {
       '}',
     ),
 
-    attribute_name: _ => /[^<>{}"'/=\s]+/,
+    // attribute_name: _ => /[^<>{}"'/=\s]+/,
+
+    attribute_directive: _ => /[^<>{}:|"'/=\s]+/,
+
+    attribute_identifier: _ => /[^<>{}:|"'/=\s]+/,
+
+    modifier: _ => /[^<>{}:|"'/=\s|]+/,
+
+    attribute_name: $ => seq(
+      // optional(seq(
+      //   $.attribute_directive,
+      //   ':',
+      // )),
+      choice(
+        prec(1, $.attribute_identifier),
+        seq(
+          $.attribute_directive,
+          ':',
+          $.attribute_identifier,
+        ),
+      ),
+      repeat(seq('|', $.modifier)),
+    ),
 
     attribute_value: _ => /[^<>{}"'=\s]+/,
 

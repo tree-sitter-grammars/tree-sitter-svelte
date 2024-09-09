@@ -1,0 +1,26 @@
+===================
+Modifier directives
+===================
+
+<foo on:click|stopPropagation|stopPropagation={handleClick}/>
+
+---
+
+(document
+  (element
+    (self_closing_tag
+      (tag_name)
+      (attribute
+        (attribute_name
+          (attribute_directive)
+          (attribute_identifier)
+          (modifier)
+          (modifier)
+        )
+        (expression
+          (svelte_raw_text)
+        )
+      )
+    )
+  )
+)

@@ -101,13 +101,35 @@
     }
   },
   {
+    "type": "attribute_directive",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "attribute_identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "attribute_name",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
       "types": [
+        {
+          "type": "attribute_directive",
+          "named": true
+        },
+        {
+          "type": "attribute_identifier",
+          "named": true
+        },
+        {
+          "type": "modifier",
+          "named": true
+        },
         {
           "type": "svelte_raw_text",
           "named": true
@@ -1122,6 +1144,10 @@
     "named": false
   },
   {
+    "type": "modifier",
+    "named": true
+  },
+  {
     "type": "raw_text",
     "named": true
   },
@@ -1155,6 +1181,10 @@
   },
   {
     "type": "{",
+    "named": false
+  },
+  {
+    "type": "|",
     "named": false
   },
   {
