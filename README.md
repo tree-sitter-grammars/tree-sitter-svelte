@@ -29,5 +29,5 @@ tree-sitter generate --no-bindings
 
 ### Testing
 
-You can add tests to the `corpus` directory. The tests are run with
+You can add tests to the `test/corpus` directory. The tests are run with
 `tree-sitter test`. Read about how to format tests in the treesitter guide for [`tree-sitter test`](https://tree-sitter.github.io/tree-sitter/creating-parsers#command-test)
