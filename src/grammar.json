@@ -476,7 +476,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "modifier"
+                "name": "attribute_modifier"
               }
             ]
           }
@@ -1758,7 +1758,7 @@
       "type": "PATTERN",
       "value": "[^<>{}:|\"'/=\\s]+"
     },
-    "modifier": {
+    "attribute_modifier": {
       "type": "PATTERN",
       "value": "[^<>{}:|\"'/=\\s|]+"
     }

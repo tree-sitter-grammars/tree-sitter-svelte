@@ -127,7 +127,7 @@
           "named": true
         },
         {
-          "type": "modifier",
+          "type": "attribute_modifier",
           "named": true
         },
         {
@@ -1088,6 +1088,10 @@
     "named": false
   },
   {
+    "type": "attribute_modifier",
+    "named": true
+  },
+  {
     "type": "await",
     "named": false
   },
@@ -1142,10 +1146,6 @@
   {
     "type": "key",
     "named": false
-  },
-  {
-    "type": "modifier",
-    "named": true
   },
   {
     "type": "raw_text",

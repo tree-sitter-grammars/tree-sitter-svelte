@@ -302,7 +302,7 @@ module.exports = grammar(HTML, {
 
     attribute_identifier: _ => /[^<>{}:|"'/=\s]+/,
 
-    modifier: _ => /[^<>{}:|"'/=\s|]+/,
+    attribute_modifier: _ => /[^<>{}:|"'/=\s|]+/,
 
     attribute_name: $ => seq(
       choice(
@@ -313,7 +313,7 @@ module.exports = grammar(HTML, {
           $.attribute_identifier,
         ),
       ),
-      repeat(seq('|', $.modifier)),
+      repeat(seq('|', $.attribute_modifier)),
     ),
 
     attribute_value: _ => /[^<>{}"'=\s]+/,

@@ -57,7 +57,7 @@ enum ts_symbol_identifiers {
   anon_sym_debug = 39,
   anon_sym_render = 40,
   aux_sym_attribute_directive_token1 = 41,
-  sym_modifier = 42,
+  sym_attribute_modifier = 42,
   sym__start_tag_name = 43,
   sym__script_start_tag_name = 44,
   sym__style_start_tag_name = 45,
@@ -184,7 +184,7 @@ static const char * const ts_symbol_names[] = {
   [anon_sym_debug] = "debug",
   [anon_sym_render] = "render",
   [aux_sym_attribute_directive_token1] = "attribute_directive_token1",
-  [sym_modifier] = "modifier",
+  [sym_attribute_modifier] = "attribute_modifier",
   [sym__start_tag_name] = "tag_name",
   [sym__script_start_tag_name] = "tag_name",
   [sym__style_start_tag_name] = "tag_name",
@@ -311,7 +311,7 @@ static const TSSymbol ts_symbol_map[] = {
   [anon_sym_debug] = anon_sym_debug,
   [anon_sym_render] = anon_sym_render,
   [aux_sym_attribute_directive_token1] = aux_sym_attribute_directive_token1,
-  [sym_modifier] = sym_modifier,
+  [sym_attribute_modifier] = sym_attribute_modifier,
   [sym__start_tag_name] = sym__start_tag_name,
   [sym__script_start_tag_name] = sym__start_tag_name,
   [sym__style_start_tag_name] = sym__start_tag_name,
@@ -564,7 +564,7 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = false,
     .named = false,
   },
-  [sym_modifier] = {
+  [sym_attribute_modifier] = {
     .visible = true,
     .named = true,
   },
@@ -2066,7 +2066,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if ((!eof && set_contains(aux_sym_attribute_directive_token1_character_set_1, 9, lookahead))) ADVANCE(151);
       END_STATE();
     case 152:
-      ACCEPT_TOKEN(sym_modifier);
+      ACCEPT_TOKEN(sym_attribute_modifier);
       if ((!eof && set_contains(aux_sym_attribute_directive_token1_character_set_1, 9, lookahead))) ADVANCE(152);
       END_STATE();
     default:
@@ -8393,7 +8393,7 @@ static const uint16_t ts_small_parse_table[] = {
       aux_sym__tag_value_token1,
   [7816] = 2,
     ACTIONS(738), 1,
-      sym_modifier,
+      sym_attribute_modifier,
     ACTIONS(3), 2,
       sym_comment,
       aux_sym__tag_value_token1,
@@ -8549,7 +8549,7 @@ static const uint16_t ts_small_parse_table[] = {
       aux_sym__tag_value_token1,
   [8028] = 2,
     ACTIONS(774), 1,
-      sym_modifier,
+      sym_attribute_modifier,
     ACTIONS(3), 2,
       sym_comment,
       aux_sym__tag_value_token1,

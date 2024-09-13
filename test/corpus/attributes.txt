@@ -14,8 +14,8 @@ Modifier directives
         (attribute_name
           (attribute_directive)
           (attribute_identifier)
-          (modifier)
-          (modifier)
+          (attribute_modifier)
+          (attribute_modifier)
         )
         (expression
           (svelte_raw_text)

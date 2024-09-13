@@ -142,3 +142,21 @@ Attribute expression with newlines
                 (attribute_name
                     (attribute_identifier))
                 (quoted_attribute_value (attribute_value))))))
+
+===================================
+Each block with weird `as` position
+===================================
+{#each [1,2,3]as cat}
+  {cat.name}
+{/each}
+----
+  (document
+      (each_statement
+        (each_start
+          (block_start_tag)
+          (svelte_raw_text)
+          (svelte_raw_text))
+        (expression
+          (svelte_raw_text))
+        (each_end
+          (block_end_tag))))
