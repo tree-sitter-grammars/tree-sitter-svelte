@@ -297,7 +297,23 @@ module.exports = grammar(HTML, {
       '}',
     ),
 
-    attribute_name: _ => /[^<>{}"'/=\s]+/,
+    attribute_directive: _ => /[^<>{}:|"'/=\s]+/,
+
+    attribute_identifier: _ => /[^<>{}:|"'/=\s]+/,
+
+    attribute_modifier: _ => /[^<>{}:|"'/=\s|]+/,
+
+    attribute_name: $ => seq(
+      choice(
+        prec(1, $.attribute_identifier),
+        seq(
+          $.attribute_directive,
+          ':',
+          $.attribute_identifier,
+        ),
+      ),
+      repeat(seq('|', $.attribute_modifier)),
+    ),
 
     attribute_value: _ => /[^<>{}"'=\s]+/,
 

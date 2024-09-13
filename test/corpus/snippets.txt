@@ -1,6 +1,7 @@
-========================
+=======
 Snippet
-========================
+=======
+
 {#snippet figure(image)}
 	<figure></figure>
 {/snippet}
@@ -172,7 +173,8 @@ Snippet (in component)
     (start_tag
       (tag_name)
       (attribute
-        (attribute_name)
+        (attribute_name
+            (attribute_identifier))
         (expression
           (svelte_raw_text))))
     (snippet_statement
@@ -260,5 +262,4 @@ Snippet (in component)
       (expression_tag)
       (svelte_raw_text))
     (end_tag
-      (tag_name)))
-)
+      (tag_name))))
