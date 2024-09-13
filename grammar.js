@@ -37,7 +37,6 @@ module.exports = grammar(HTML, {
     '#',
     '/',
     ':',
-    '|',
   ],
 
   extras: $ => [
