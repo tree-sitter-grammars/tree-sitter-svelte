@@ -15,3 +15,19 @@
 [npm]: https://img.shields.io/npm/v/@tree-sitter-grammars/tree-sitter-svelte?logo=npm
 [crates]: https://img.shields.io/crates/v/tree-sitter-svelte-ng?logo=rust
 [pypi]: https://img.shields.io/pypi/v/tree-sitter-svelte?logo=pypi&logoColor=ffd242
+
+
+## Contributing
+
+
+### Building the parser
+If you have updated the `grammar.js` file, you can regenerate the parser code using:
+```bash
+tree-sitter generate --no-bindings
+```
+
+
+### Testing
+
+You can add tests to the `test/corpus` directory. The tests are run with
+`tree-sitter test`. Read about how to format tests in the treesitter guide for [`tree-sitter test`](https://tree-sitter.github.io/tree-sitter/creating-parsers#command-test)

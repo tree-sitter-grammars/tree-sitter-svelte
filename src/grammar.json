@@ -433,8 +433,55 @@
       ]
     },
     "attribute_name": {
-      "type": "PATTERN",
-      "value": "[^<>{}\"'/=\\s]+"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "SYMBOL",
+                "name": "attribute_identifier"
+              }
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "attribute_directive"
+                },
+                {
+                  "type": "STRING",
+                  "value": ":"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "attribute_identifier"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "|"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "attribute_modifier"
+              }
+            ]
+          }
+        }
+      ]
     },
     "attribute_value": {
       "type": "PATTERN",
@@ -1702,6 +1749,18 @@
           "value": "}"
         }
       ]
+    },
+    "attribute_directive": {
+      "type": "PATTERN",
+      "value": "[^<>{}:|\"'/=\\s]+"
+    },
+    "attribute_identifier": {
+      "type": "PATTERN",
+      "value": "[^<>{}:|\"'/=\\s]+"
+    },
+    "attribute_modifier": {
+      "type": "PATTERN",
+      "value": "[^<>{}:|\"'/=\\s|]+"
     }
   },
   "extras": [
@@ -1793,6 +1852,10 @@
     {
       "type": "STRING",
       "value": ":"
+    },
+    {
+      "type": "STRING",
+      "value": "|"
     }
   ],
   "inline": [],
