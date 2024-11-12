@@ -138,7 +138,7 @@ module.exports = grammar(HTML, {
       '}',
     ),
 
-    _else_if_tag: _ => tag(':', 'else if'),
+    _else_if_tag: _ => tag(':', 'else', 'if'),
     else_if_start: $ => seq(
       '{',
       alias($._else_if_tag, $.block_tag),
@@ -308,11 +308,13 @@ module.exports = grammar(HTML, {
 /**
  * @param  {string} sym
  * @param  {string} text
+ * @rest param {string} ...other
  * @return {SeqRule}
  */
-function tag(sym, text) {
+function tag(sym, text, ...other) {
   return seq(
     sym,
     field('tag', token.immediate(text)),
+    ...other.map(rule => field('tag', rule)),
   );
 }
