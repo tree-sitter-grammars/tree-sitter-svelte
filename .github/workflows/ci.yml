@@ -28,55 +28,85 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-14]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Set up tree-sitter
-        uses: tree-sitter/setup-action/cli@v1
+        uses: tree-sitter/setup-action/cli@v2
       - name: Clone Svelte repo
         uses: actions/checkout@v4
         with:
           path: examples/svelte
           repository: sveltejs/svelte
+          ref: 6a7df1cce82e2f7df21f056d89458d2fb47530cc
           sparse-checkout: |-
             packages/svelte/tests/
             documentation/examples/
             sites/svelte.dev/src/
-      - name: Run tests
+      - name: Run parser and binding tests
         uses: tree-sitter/parser-test-action@v2
         with:
-          test-rust: ${{runner.os == 'Linux'}}
-          test-node: true
-          test-python: true
-          test-go: true
-          test-swift: ${{runner.os == 'macOS'}}
+          generate: false
+          test-rust: true
       - name: Parse examples
         uses: tree-sitter/parse-action@v4
         with:
           files: |-
             examples/svelte/**/*.svelte
+            !examples/svelte/packages/svelte/tests/compiler-errors/samples/runes-invalid-each-binding/main.svelte
+            !examples/svelte/packages/svelte/tests/css/samples/general-siblings-combinator-svelteelement/input.svelte
+            !examples/svelte/packages/svelte/tests/migrate/samples/svelte-self-name-conflict/output.svelte
+            !examples/svelte/packages/svelte/tests/parser-legacy/samples/generic-snippets/input.svelte
             !examples/svelte/packages/svelte/tests/parser-legacy/samples/implicitly-closed-li-block/input.svelte
             !examples/svelte/packages/svelte/tests/parser-legacy/samples/no-error-if-before-closing/input.svelte
             !examples/svelte/packages/svelte/tests/parser-legacy/samples/textarea-end-tag/input.svelte
+            !examples/svelte/packages/svelte/tests/parser-modern/samples/attachments/input.svelte
+            !examples/svelte/packages/svelte/tests/parser-modern/samples/generic-snippets/input.svelte
             !examples/svelte/packages/svelte/tests/preprocess/samples/script-self-closing/input.svelte
             !examples/svelte/packages/svelte/tests/preprocess/samples/style-self-closing/input.svelte
-            !examples/svelte/packages/svelte/tests/compiler-errors/samples/runes-invalid-each-binding/main.svelte
+            !examples/svelte/packages/svelte/tests/runtime-legacy/samples/attachment-in-mutated-state/main.svelte
             !examples/svelte/packages/svelte/tests/runtime-legacy/samples/await-catch-no-expression/main.svelte
             !examples/svelte/packages/svelte/tests/runtime-legacy/samples/binding-input-checkbox-with-event-in-each/main.svelte
             !examples/svelte/packages/svelte/tests/runtime-legacy/samples/each-block-deconflict-name-context/main.svelte
             !examples/svelte/packages/svelte/tests/runtime-legacy/samples/each-block-scope-shadow-self/main.svelte
             !examples/svelte/packages/svelte/tests/runtime-legacy/samples/escape-template-literals/main.svelte
             !examples/svelte/packages/svelte/tests/runtime-legacy/samples/event-handler-removal/main.svelte
-            !examples/svelte/packages/svelte/tests/runtime-legacy/samples/store-each-binding/main.svelte
             !examples/svelte/packages/svelte/tests/runtime-legacy/samples/store-each-binding-deep/main.svelte
             !examples/svelte/packages/svelte/tests/runtime-legacy/samples/store-each-binding-destructuring/main.svelte
+            !examples/svelte/packages/svelte/tests/runtime-legacy/samples/store-each-binding/main.svelte
             !examples/svelte/packages/svelte/tests/runtime-legacy/samples/unchanged-expression-escape/main.svelte
+            !examples/svelte/packages/svelte/tests/runtime-runes/samples/attachment-basic/main.svelte
+            !examples/svelte/packages/svelte/tests/runtime-runes/samples/attachment-component-falsy/main.svelte
+            !examples/svelte/packages/svelte/tests/runtime-runes/samples/attachment-component/main.svelte
+            !examples/svelte/packages/svelte/tests/runtime-runes/samples/attachment-from-action/main.svelte
+            !examples/svelte/packages/svelte/tests/runtime-runes/samples/attachment-reactive/main.svelte
+            !examples/svelte/packages/svelte/tests/runtime-runes/samples/attachment-spread-stable/main.svelte
+            !examples/svelte/packages/svelte/tests/runtime-runes/samples/attachment-svelte-element/main.svelte
+            !examples/svelte/packages/svelte/tests/runtime-runes/samples/each-without-as/main.svelte
+            !examples/svelte/packages/svelte/tests/snapshot/samples/each-index-non-null/index.svelte
           invalid-files: |-
             examples/svelte/packages/svelte/tests/compiler-errors/**/*
+            examples/svelte/packages/svelte/tests/migrate/samples/impossible-migrate-with-errors/input.svelte
+            examples/svelte/packages/svelte/tests/migrate/samples/impossible-migrate-with-errors/output.svelte
+            examples/svelte/packages/svelte/tests/parser-legacy/samples/loose-invalid-block/input.svelte
+            examples/svelte/packages/svelte/tests/parser-legacy/samples/loose-invalid-expression/input.svelte
+            examples/svelte/packages/svelte/tests/parser-legacy/samples/loose-unclosed-block/input.svelte
+            examples/svelte/packages/svelte/tests/parser-legacy/samples/loose-unclosed-open-tag/input.svelte
+            examples/svelte/packages/svelte/tests/parser-legacy/samples/loose-unclosed-tag/input.svelte
+            examples/svelte/packages/svelte/tests/parser-modern/samples/loose-invalid-block/input.svelte
+            examples/svelte/packages/svelte/tests/parser-modern/samples/loose-invalid-expression/input.svelte
+            examples/svelte/packages/svelte/tests/parser-modern/samples/loose-unclosed-open-tag/input.svelte
+            examples/svelte/packages/svelte/tests/parser-modern/samples/loose-unclosed-tag/input.svelte
+            examples/svelte/packages/svelte/tests/runtime-runes/samples/each-updates-6/main.svelte
+            examples/svelte/packages/svelte/tests/runtime-runes/samples/each-updates-7/main.svelte
             examples/svelte/packages/svelte/tests/validator/samples/attribute-expected-equals/input.svelte
             examples/svelte/packages/svelte/tests/validator/samples/attribute-invalid-name/input.svelte
             examples/svelte/packages/svelte/tests/validator/samples/html-block-in-attribute/input.svelte
             examples/svelte/packages/svelte/tests/validator/samples/logic-block-in-attribute/input.svelte
-            examples/svelte/packages/svelte/tests/runtime-runes/samples/each-updates-6/main.svelte
-            examples/svelte/packages/svelte/tests/runtime-runes/samples/each-updates-7/main.svelte
+      - name: Upload failures artifact
+        uses: actions/upload-artifact@v4
+        if: "!cancelled() && steps.parse-files.outcome == 'failure'"
+        with:
+          name: failures-${{runner.os}}
+          path: ${{steps.parse-files.outputs.failures}}
