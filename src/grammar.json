@@ -649,8 +649,16 @@
             "type": "IMMEDIATE_TOKEN",
             "content": {
               "type": "STRING",
-              "value": "else if"
+              "value": "else"
             }
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "tag",
+          "content": {
+            "type": "STRING",
+            "value": "if"
           }
         }
       ]

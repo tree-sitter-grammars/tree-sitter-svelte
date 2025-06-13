@@ -264,7 +264,7 @@
     "named": true,
     "fields": {
       "tag": {
-        "multiple": false,
+        "multiple": true,
         "required": true,
         "types": [
           {
@@ -276,7 +276,7 @@
             "named": false
           },
           {
-            "type": "else if",
+            "type": "if",
             "named": false
           },
           {
@@ -1097,10 +1097,6 @@
   },
   {
     "type": "else",
-    "named": false
-  },
-  {
-    "type": "else if",
     "named": false
   },
   {
