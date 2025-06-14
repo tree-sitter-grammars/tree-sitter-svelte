@@ -3,8 +3,8 @@ package tree_sitter_svelte_test
 import (
 	"testing"
 
-	tree_sitter_svelte "github.com/tree-sitter-grammars/tree-sitter-svelte/bindings/go"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
+	tree_sitter_svelte "github.com/tree-sitter-grammars/tree-sitter-svelte/bindings/go"
 )
 
 func TestCanLoadGrammar(t *testing.T) {

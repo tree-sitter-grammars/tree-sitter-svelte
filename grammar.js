@@ -308,7 +308,7 @@ module.exports = grammar(HTML, {
 /**
  * @param  {string} sym
  * @param  {string} text
- * @return {SeqRule}
+ * @returns {SeqRule}
  */
 function tag(sym, text) {
   return seq(
