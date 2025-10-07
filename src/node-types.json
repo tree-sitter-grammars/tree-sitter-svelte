@@ -74,6 +74,25 @@
     ]
   },
   {
+    "type": "attach_tag",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression_tag",
+          "named": true
+        },
+        {
+          "type": "svelte_raw_text",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "attribute",
     "named": true,
     "fields": {},
@@ -81,6 +100,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "attach_tag",
+          "named": true
+        },
         {
           "type": "attribute_name",
           "named": true
@@ -621,6 +644,10 @@
         "required": true,
         "types": [
           {
+            "type": "attach",
+            "named": false
+          },
+          {
             "type": "const",
             "named": false
           },
@@ -1063,6 +1090,10 @@
   },
   {
     "type": "as",
+    "named": false
+  },
+  {
+    "type": "attach",
     "named": false
   },
   {

@@ -119,6 +119,7 @@ module.exports = grammar(HTML, {
           )),
         ),
         alias($.expression, $.attribute_name),
+        $.attach_tag,
       ),
     ),
 
@@ -295,6 +296,14 @@ module.exports = grammar(HTML, {
       alias($._render_tag, $.expression_tag),
       $._tag_value,
       '}',
+    ),
+
+    _attach_tag: _ => tag('@', 'attach'),
+    attach_tag: $ => seq(
+      '{',
+      alias($._attach_tag, $.expression_tag),
+      $._tag_value,
+      '}'
     ),
 
     attribute_name: _ => /[^<>{}"'/=\s]+/,

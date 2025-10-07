@@ -427,6 +427,10 @@
               },
               "named": true,
               "value": "attribute_name"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "attach_tag"
             }
           ]
         }
@@ -1689,6 +1693,52 @@
           "content": {
             "type": "SYMBOL",
             "name": "_render_tag"
+          },
+          "named": true,
+          "value": "expression_tag"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_tag_value"
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "_attach_tag": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "@"
+        },
+        {
+          "type": "FIELD",
+          "name": "tag",
+          "content": {
+            "type": "IMMEDIATE_TOKEN",
+            "content": {
+              "type": "STRING",
+              "value": "attach"
+            }
+          }
+        }
+      ]
+    },
+    "attach_tag": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_attach_tag"
           },
           "named": true,
           "value": "expression_tag"

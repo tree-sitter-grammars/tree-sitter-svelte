@@ -262,3 +262,26 @@ Snippet (in component)
     (end_tag
       (tag_name)))
 )
+
+============================
+@attach 
+============================
+<button {@attach tooltip(content)} class="test">
+	Hover me
+</button>
+----------------------------
+(document
+  (element
+    (start_tag
+      (tag_name)
+      (attribute
+        (attach_tag
+          (expression_tag)
+          (svelte_raw_text)))
+      (attribute
+        (attribute_name)
+        (quoted_attribute_value
+          (attribute_value))))
+    (text)
+    (end_tag
+      (tag_name))))
