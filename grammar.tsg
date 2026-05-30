@@ -1,0 +1,204 @@
+// Svelte grammar for tree-sitter (native DSL).
+// Extends tree-sitter-html.
+
+let html = inherit("../tree-sitter-html/grammar.tsg")
+
+// JS helper: tag(sym, txt) -> seq(sym, field('tag', token.immediate(txt))).
+macro tag(sym: str_t, txt: str_t) rule_t {
+    seq(sym, field(tag, token_immediate(txt)))
+}
+
+grammar {
+    language: "svelte",
+    inherits: html,
+
+    conflicts: [
+        [else_if_block],
+        [else_block],
+        [then_block],
+        [catch_block],
+    ],
+
+    // externals: replaces (not extends) html's. Mirror html's 10 entries
+    // plus svelte additions.
+    externals: [
+        _start_tag_name, _script_start_tag_name, _style_start_tag_name,
+        _end_tag_name, erroneous_end_tag_name,
+        "/>",
+        _implicit_end_tag,
+        raw_text,
+        comment,
+        svelte_raw_text,
+        svelte_raw_text_each,
+        svelte_raw_text_snippet_arguments,
+        "@", "#", "/", ":",
+    ],
+
+    extras: [comment, regexp(r"\s+")],
+
+    supertypes: [_node],
+}
+
+override rule _node {
+    choice(
+        html::_node,
+        if_statement, each_statement, await_statement, key_statement, snippet_statement,
+        expression,
+        html_tag, const_tag, debug_tag, render_tag,
+    )
+}
+
+rule _single_quoted_attribute_value {
+    repeat1(choice(regexp(r"[^{']+"), expression))
+}
+
+rule _double_quoted_attribute_value {
+    repeat1(choice(regexp(r#"[^{"]+"#), expression))
+}
+
+override rule quoted_attribute_value {
+    choice(
+        seq("'", optional(alias(_single_quoted_attribute_value, attribute_value)), "'"),
+        seq("\"", optional(alias(_double_quoted_attribute_value, attribute_value)), "\""),
+    )
+}
+
+override rule attribute {
+    seq(choice(
+        seq(
+            attribute_name,
+            optional(seq(
+                "=",
+                choice(attribute_value, quoted_attribute_value, expression),
+            )),
+        ),
+        alias(expression, attribute_name),
+    ))
+}
+
+rule if_statement {
+    seq(
+        if_start,
+        repeat(_node),
+        repeat(else_if_block),
+        optional(else_block),
+        if_end,
+    )
+}
+
+rule _if_start_tag { tag("#", "if") }
+rule if_start {
+    seq("{", alias(_if_start_tag, block_start_tag), field(condition, svelte_raw_text), "}")
+}
+
+rule _else_if_tag { tag(":", "else if") }
+rule else_if_start {
+    seq("{", alias(_else_if_tag, block_tag), field(condition, svelte_raw_text), "}")
+}
+rule else_if_block { seq(else_if_start, repeat(_node)) }
+
+rule _else_tag { tag(":", "else") }
+rule else_start { seq("{", alias(_else_tag, block_tag), "}") }
+rule else_block { seq(else_start, repeat(_node)) }
+
+rule _if_end_tag { tag("/", "if") }
+rule if_end { seq("{", alias(_if_end_tag, block_end_tag), "}") }
+
+rule each_statement {
+    seq(
+        each_start,
+        repeat(_node),
+        optional(seq(else_block, repeat(_node))),
+        each_end,
+    )
+}
+
+rule _each_start_tag { tag("#", "each") }
+rule each_start {
+    seq(
+        "{",
+        alias(_each_start_tag, block_start_tag),
+        choice(
+            field(identifier, svelte_raw_text),
+            seq(
+                field(identifier, alias(svelte_raw_text_each, svelte_raw_text)),
+                "as",
+                field(parameter, svelte_raw_text),
+            ),
+        ),
+        "}",
+    )
+}
+
+rule _each_end_tag { tag("/", "each") }
+rule each_end { seq("{", alias(_each_end_tag, block_end_tag), "}") }
+
+rule await_statement {
+    seq(
+        await_start,
+        repeat(_node),
+        optional(then_block),
+        optional(catch_block),
+        await_end,
+    )
+}
+
+rule _await_start_tag { tag("#", "await") }
+rule await_start {
+    seq("{", alias(_await_start_tag, block_start_tag), svelte_raw_text, "}")
+}
+
+rule _then_tag { tag(":", "then") }
+rule then_start { seq("{", alias(_then_tag, block_tag), optional(svelte_raw_text), "}") }
+rule then_block { seq(then_start, repeat(_node)) }
+
+rule _catch_tag { tag(":", "catch") }
+rule catch_start { seq("{", alias(_catch_tag, block_tag), optional(svelte_raw_text), "}") }
+rule catch_block { seq(catch_start, repeat(_node)) }
+
+rule _await_end_tag { tag("/", "await") }
+rule await_end { seq("{", alias(_await_end_tag, block_end_tag), "}") }
+
+rule key_statement { seq(key_start, repeat(_node), key_end) }
+rule _key_start_tag { tag("#", "key") }
+rule key_start { seq("{", alias(_key_start_tag, block_start_tag), svelte_raw_text, "}") }
+rule _key_end_tag { tag("/", "key") }
+rule key_end { seq("{", alias(_key_end_tag, block_end_tag), "}") }
+
+rule snippet_statement { seq(snippet_start, repeat(_node), snippet_end) }
+
+rule _snippet_start_tag { tag("#", "snippet") }
+rule snippet_start {
+    seq(
+        "{",
+        alias(_snippet_start_tag, block_start_tag),
+        alias(regexp(r"[a-zA-Z$_][a-zA-Z0-9_]*"), snippet_name),
+        "(",
+        optional(alias(svelte_raw_text_snippet_arguments, svelte_raw_text)),
+        ")",
+        "}",
+    )
+}
+
+rule _snippet_end_tag { tag("/", "snippet") }
+rule snippet_end { seq("{", alias(_snippet_end_tag, block_end_tag), "}") }
+
+rule expression { seq("{", svelte_raw_text, "}") }
+
+rule _tag_value { seq(regexp(r"\s+"), svelte_raw_text) }
+
+rule _html_tag { tag("@", "html") }
+rule html_tag { seq("{", alias(_html_tag, expression_tag), _tag_value, "}") }
+
+rule _const_tag { tag("@", "const") }
+rule const_tag { seq("{", alias(_const_tag, expression_tag), _tag_value, "}") }
+
+rule _debug_tag { tag("@", "debug") }
+rule debug_tag { seq("{", alias(_debug_tag, expression_tag), _tag_value, "}") }
+
+rule _render_tag { tag("@", "render") }
+rule render_tag { seq("{", alias(_render_tag, expression_tag), _tag_value, "}") }
+
+override rule attribute_name { regexp(r#"[^<>{}"'/=\s]+"#) }
+override rule attribute_value { regexp(r#"[^<>{}"'=\s]+"#) }
+override rule text { regexp(r"[^<>{}&\s]([^<>{}&]*[^<>{}&\s])?") }
