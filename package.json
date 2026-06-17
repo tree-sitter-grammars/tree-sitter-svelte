@@ -1,16 +1,20 @@
 {
-  "name": "tree-sitter-svelte",
-  "private": true,
-  "scripts": {
-    "prestart": "tree-sitter build --wasm",
-    "start": "tree-sitter playground",
-    "test": "node --test bindings/node/*_test.js"
-  },
-  "packageManager": "pnpm@11.7.0",
-  "dependencies": {
-    "tree-sitter-html": "^0.23.0"
-  },
-  "devDependencies": {
-    "tree-sitter-cli": "^0.23.0"
-  }
+	"name": "tree-sitter-svelte",
+	"private": true,
+	"scripts": {
+		"prestart": "tree-sitter build --wasm",
+		"start": "tree-sitter playground",
+		"test": "node --test bindings/node/*_test.js",
+		"check": "prettier --check .",
+		"fix": "prettier --write ."
+	},
+	"packageManager": "pnpm@11.7.0",
+	"dependencies": {
+		"tree-sitter-html": "^0.23.0"
+	},
+	"devDependencies": {
+		"prettier": "^3.8.4",
+		"prettier-plugin-svelte": "^4.1.1",
+		"tree-sitter-cli": "^0.23.0"
+	}
 }
