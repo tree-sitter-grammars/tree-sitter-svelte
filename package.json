@@ -2,8 +2,8 @@
 	"name": "tree-sitter-svelte",
 	"private": true,
 	"scripts": {
-		"prestart": "tree-sitter build --wasm",
-		"start": "tree-sitter playground",
+		"build": "tree-sitter build --wasm",
+		"play": "tree-sitter playground",
 		"test": "tree-sitter test",
 		"check": "prettier --check .",
 		"fix": "prettier --write ."
