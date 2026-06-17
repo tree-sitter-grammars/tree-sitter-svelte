@@ -1,11 +1,12 @@
 {
 	"name": "tree-sitter-svelte",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"build": "tree-sitter build --wasm",
 		"play": "tree-sitter playground",
 		"test": "tree-sitter test",
-		"check": "prettier --check .",
+		"check": "prettier --check . && tsc",
 		"fix": "prettier --write ."
 	},
 	"packageManager": "pnpm@11.7.0",

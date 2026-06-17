@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"checkJs": true,
+		"allowJs": true,
+		"noEmit": true,
+		"skipLibCheck": true,
+		"verbatimModuleSyntax": true,
+		"forceConsistentCasingInFileNames": true,
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"types": ["tree-sitter-cli/dsl"]
+	},
+	"include": ["./grammar.js", "./ambient.d.ts"],
+	"exclude": ["./node_modules/**"]
+}

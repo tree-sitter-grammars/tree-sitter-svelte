@@ -1,16 +1,6 @@
-/**
- * @file Svelte grammar for tree-sitter
- * @author Amaan Qureshi <amaanq12@gmail.com>
- * @license MIT
- * @see {@link https://svelte.dev|Official website}
- */
+import HTML from 'tree-sitter-html/grammar';
 
-/// <reference types="tree-sitter-cli/dsl" />
-// @ts-check
-
-const HTML = require('tree-sitter-html/grammar');
-
-module.exports = grammar(HTML, {
+export default grammar(HTML, {
 	name: 'svelte',
 
 	conflicts: ($) => [
@@ -46,6 +36,7 @@ module.exports = grammar(HTML, {
 	rules: {
 		_node: ($, original) =>
 			choice(
+				// @ts-expect-error it's fine
 				original,
 
 				$.if_statement,
