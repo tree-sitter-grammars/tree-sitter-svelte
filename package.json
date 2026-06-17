@@ -2,7 +2,6 @@
   "name": "tree-sitter-svelte",
   "private": true,
   "scripts": {
-    "lint": "eslint grammar.js",
     "prestart": "tree-sitter build --wasm",
     "start": "tree-sitter playground",
     "test": "node --test bindings/node/*_test.js"
@@ -12,8 +11,6 @@
     "tree-sitter-html": "^0.23.0"
   },
   "devDependencies": {
-    "eslint": "^9.10.0",
-    "eslint-config-google": "^0.14.0",
     "tree-sitter-cli": "^0.23.0"
   },
   "tree-sitter": [
