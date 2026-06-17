@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       tree-sitter-html:
-        specifier: ^0.23.0
+        specifier: ^0.23.2
         version: 0.23.2
     devDependencies:
       prettier:
@@ -19,8 +19,8 @@ importers:
         specifier: ^4.1.1
         version: 4.1.1(prettier@3.8.4)(svelte@5.56.3)
       tree-sitter-cli:
-        specifier: ^0.23.0
-        version: 0.23.2
+        specifier: ^0.26.9
+        version: 0.26.9
 
 packages:
 
@@ -115,8 +115,8 @@ packages:
     resolution: {integrity: sha512-w7JvrM5IFl5cmfbY0TLik9o7mjRUJmRMhOR51tBPu708Gr/MjbGs7VnJnr/B0CaXeI4vtnOh7RKxDr0cwhMdDA==}
     engines: {node: '>=18'}
 
-  tree-sitter-cli@0.23.2:
-    resolution: {integrity: sha512-kPPXprOqREX+C/FgUp2Qpt9jd0vSwn+hOgjzVv/7hapdoWpa+VeWId53rf4oNNd29ikheF12BYtGD/W90feMbA==}
+  tree-sitter-cli@0.26.9:
+    resolution: {integrity: sha512-7l+U1RmazPVe+yA/JiX80GFOILnL/j24GbawamIzNQC8UlINrcyECbaWGaG1wuq4j/m0DQTx7Uu4r0iW9Ao1BQ==}
     engines: {node: '>=12.0.0'}
     hasBin: true
 
@@ -218,7 +218,7 @@ snapshots:
     transitivePeerDependencies:
       - '@typescript-eslint/types'
 
-  tree-sitter-cli@0.23.2: {}
+  tree-sitter-cli@0.26.9: {}
 
   tree-sitter-html@0.23.2:
     dependencies:
